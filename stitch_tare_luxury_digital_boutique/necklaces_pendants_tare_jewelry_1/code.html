@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TAREÉ JEWELRY | Necklaces &amp; Pendants</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ba1a1a",
+                        "tertiary": "#070704",
+                        "secondary-fixed-dim": "#e9c349",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-tertiary-container": "#8a8780",
+                        "background": "#f9f9f9",
+                        "on-tertiary-fixed": "#1d1c17",
+                        "tertiary-container": "#211f1a",
+                        "on-secondary-container": "#745c00",
+                        "on-primary-fixed-variant": "#414657",
+                        "outline": "#76777d",
+                        "on-tertiary-fixed-variant": "#494741",
+                        "primary-fixed": "#dee2f7",
+                        "surface": "#f9f9f9",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface-variant": "#e2e2e2",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e8e8e8",
+                        "outline-variant": "#c6c6cd",
+                        "tertiary-fixed-dim": "#cac6be",
+                        "inverse-primary": "#c1c6da",
+                        "on-primary-container": "#828699",
+                        "secondary-fixed": "#ffe088",
+                        "on-surface-variant": "#46464c",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#f9f9f9",
+                        "on-secondary-fixed": "#241a00",
+                        "inverse-surface": "#2f3131",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#c1c6da",
+                        "surface-tint": "#595e6f",
+                        "primary-container": "#1a1f2e",
+                        "inverse-on-surface": "#f0f1f1",
+                        "primary": "#030714",
+                        "on-surface": "#1a1c1c",
+                        "surface-dim": "#dadada",
+                        "surface-container": "#eeeeee",
+                        "on-primary-fixed": "#161b2a",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#e7e2da",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#735c00",
+                        "secondary-container": "#fed65b",
+                        "surface-container-low": "#f3f3f4",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-background": "#1a1c1c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max-width": "1280px",
+                        "base": "8px",
+                        "section-gap-mobile": "64px",
+                        "section-gap": "120px",
+                        "margin-mobile": "20px",
+                        "gutter": "24px",
+                        "margin-desktop": "48px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Playfair Display"],
+                        "body-md": ["Manrope"],
+                        "label-caps": ["Manrope"],
+                        "headline-lg": ["Playfair Display"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "headline-md": ["Playfair Display"],
+                        "body-lg": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                        "headline-lg": ["40px", {"lineHeight": "48px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .butterfly-glow {
+            filter: drop-shadow(0 0 15px rgba(233, 195, 73, 0.3));
+        }
+        .hero-overlay {
+            background: linear-gradient(to bottom, rgba(3, 7, 20, 0.4) 0%, rgba(3, 7, 20, 0.1) 50%, rgba(249, 249, 249, 1) 100%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-secondary-fixed-dim/30">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/90 dark:bg-primary/90 backdrop-blur-md shadow-sm border-b border-outline-variant/10">
+<div class="flex flex-col items-center w-full px-margin-desktop py-4 max-w-container-max-width mx-auto">
+<div class="flex justify-between items-center w-full">
+<!-- Mobile Menu -->
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<!-- Brand Anchor -->
+<div class="flex-shrink-0"><a class="flex items-center gap-3" href="#">
+<img alt="TAREÉ Monogram" class="h-10 w-auto" src="https://lh3.googleusercontent.com/aida/ADBb0ug-yXkKTw1Zo1ysAd5JMu6MZWVVuJoTB_NjwNxgVWsPeGgVh6Am09Iv4E0ZO-7oA_00W4fPuUUgww0Tjeepo-kGog6BHdDHSR92FSSA1XeddNiclPsgLCzbGJb3naqyG83qwyqbWgT2qxw2_dxxIt2U9W-Dheaw8_ChfpbEcr-IVxgsDIc1F2W8hMHBv_NtaWUHm6xywYLVWAnlsCGVtTJD2SQUn1PyF7izLHc_tWbo3bOUdu14JJEZsFe32YiGpfgK9q4S6W_RKfQ"/>
+<h1 class="font-display-lg text-headline-lg text-primary dark:text-secondary-fixed-dim italic leading-none">TAREÉ</h1>
+</a></div>
+<!-- Desktop Navigation Links -->
+<div class="hidden md:flex gap-8 items-center">
+<a class="font-body-md text-label-caps uppercase tracking-widest text-on-surface-variant dark:text-on-tertiary-container hover:text-secondary transition-colors duration-300" href="#">About Us</a>
+<a class="font-body-md text-label-caps uppercase tracking-widest text-secondary dark:text-secondary-fixed font-bold border-b border-secondary" href="#">Collections</a>
+<a class="font-body-md text-label-caps uppercase tracking-widest text-on-surface-variant dark:text-on-tertiary-container hover:text-secondary transition-colors duration-300" href="#">New Arrivals</a>
+<a class="font-body-md text-label-caps uppercase tracking-widest text-on-surface-variant dark:text-on-tertiary-container hover:text-secondary transition-colors duration-300" href="#">Contact</a>
+<a class="font-body-md text-label-caps uppercase tracking-widest text-on-surface-variant dark:text-on-tertiary-container hover:text-secondary transition-colors duration-300" href="#">Blog</a>
+</div>
+<!-- Action Icons -->
+<div class="flex gap-4 items-center">
+<button class="text-primary hover:text-secondary transition-colors"><span class="material-symbols-outlined" data-icon="search">search</span></button>
+<button class="text-primary hover:text-secondary transition-colors"><span class="material-symbols-outlined" data-icon="person">person</span></button>
+<button class="text-primary hover:text-secondary transition-colors relative">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+<button class="text-primary hover:text-secondary transition-colors">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- Side Navigation Shell (Hidden on Mobile) -->
+<aside class="fixed top-[80px] left-0 h-fit hidden md:flex flex-col h-screen w-64 border-r border-outline-variant/20 bg-surface dark:bg-tertiary z-40">
+<div class="p-8">
+<h2 class="font-display-lg text-headline-md text-secondary mb-1">Collections</h2>
+<p class="font-body-md text-label-caps text-on-surface-variant/60 uppercase text-[10px] tracking-widest">Exquisite African Luxury</p>
+</div>
+<nav class="flex flex-col">
+<a class="flex items-center gap-4 py-4 px-8 text-on-surface-variant hover:bg-surface-variant/50 transition-all duration-300 font-body-md text-label-caps uppercase" href="#">
+<span class="material-symbols-outlined text-secondary" data-icon="diamond">diamond</span> NECKLACES &amp; PENDANTS
+            </a>
+<a class="flex items-center gap-4 py-4 px-8 text-on-surface-variant hover:bg-surface-variant/50 transition-all duration-300 font-body-md text-label-caps uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="star">star</span> EARRINGS
+            </a>
+<a class="flex items-center gap-4 py-4 px-8 text-on-surface-variant hover:bg-surface-variant/50 transition-all duration-300 font-body-md text-label-caps uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="pentagon">pentagon</span> BRACELETS &amp; BANGLES
+            </a>
+<a class="flex items-center gap-4 py-4 px-8 text-on-surface-variant hover:bg-surface-variant/50 transition-all duration-300 font-body-md text-label-caps uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="circle">circle</span> RINGS
+            </a>
+<a class="flex items-center gap-4 py-4 px-8 text-on-surface-variant hover:bg-surface-variant/50 transition-all duration-300 font-body-md text-label-caps uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="watch">watch</span> WATCHES
+            </a>
+<a class="flex items-center gap-4 py-4 px-8 text-on-surface-variant hover:bg-surface-variant/50 transition-all duration-300 font-body-md text-label-caps uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span> BRIDAL
+            </a>
+<a class="flex items-center gap-4 py-4 px-8 text-on-surface-variant hover:bg-surface-variant/50 transition-all duration-300 font-body-md text-label-caps uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span> MEN'S
+            </a>
+<a class="flex items-center gap-4 py-4 px-8 text-on-surface-variant hover:bg-surface-variant/50 transition-all duration-300 font-body-md text-label-caps uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="redeem">redeem</span> GIFT SETS
+            </a>
+</nav>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-20">
+<!-- Hero Lifestyle Banner -->
+<header class="relative h-[614px] overflow-hidden flex items-end">
+<img alt="Lifestyle Jewelry Collection" class="absolute inset-0 w-full h-full object-cover" data-alt="A sophisticated African woman wearing layered TAREÉ gold necklaces and pendants, captured in soft, high-key natural lighting. The mood is serene and regal, highlighting the intricate craftsmanship of the jewelry against a minimalist, cream-toned backdrop that emphasizes luxury and feminine elegance. Shallow depth of field creates a dreamy, premium editorial aesthetic consistent with high-end boutiques." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDs8jU52PS7hzo_HxI4ZftlnKM89pirC2pU1Q_s03bs-hlY8ZQsExFpjMgVcKy_W0WnRop-LdSrOq-K_2NlKWRv1fV0derWMj-BQKtFJjA4VsqurxV2AcFQylMuoPvbOW3VtVW-2HpkiLH6xBujQ9PGn4HpnO0jxA4DE5slFgWdLeejwy1nXt6FnK4WUkIC1qs0vKgYHREDNnZLgFObQiDon-i32m-U2SUKDBPYPBN6b1RoYU0v-XR_v_PEcljl2HVIsyroSUcDCDmm"/>
+<div class="hero-overlay absolute inset-0 z-10"></div>
+<div class="relative z-20 px-margin-desktop pb-section-gap-mobile w-full max-w-container-max-width mx-auto">
+<div class="mb-4 flex items-center gap-2 font-body-md text-label-caps text-primary/60 tracking-widest uppercase">
+<a href="#">Home</a> <span>/</span> <a href="#">Collections</a> <span>/</span> <span class="text-primary">Necklaces &amp; Pendants</span>
+</div>
+<h2 class="font-display-lg text-display-lg text-primary uppercase">Necklaces &amp; Pendants</h2>
+</div>
+</header>
+<!-- Sticky Filter/Sort Bar -->
+<section class="sticky top-[80px] z-30 bg-surface/95 backdrop-blur-sm border-y border-outline-variant/10 py-4 px-margin-desktop">
+<div class="max-w-container-max-width mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex flex-wrap items-center gap-6">
+<div class="flex items-center gap-2 cursor-pointer group">
+<span class="font-body-md text-label-caps uppercase text-on-surface-variant group-hover:text-secondary transition-colors">Material</span>
+<span class="material-symbols-outlined text-sm" data-icon="expand_more">expand_more</span>
+</div>
+<div class="flex items-center gap-2 cursor-pointer group">
+<span class="font-body-md text-label-caps uppercase text-on-surface-variant group-hover:text-secondary transition-colors">Collection</span>
+<span class="material-symbols-outlined text-sm" data-icon="expand_more">expand_more</span>
+</div>
+<div class="flex items-center gap-2 cursor-pointer group">
+<span class="font-body-md text-label-caps uppercase text-on-surface-variant group-hover:text-secondary transition-colors">Price Range</span>
+<span class="material-symbols-outlined text-sm" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<div class="flex items-center gap-4 border-l border-outline-variant/20 pl-6 h-6">
+<span class="font-body-md text-label-caps text-on-surface-variant/50 uppercase">Sort by:</span>
+<select class="bg-transparent border-none focus:ring-0 font-body-md text-label-caps uppercase text-primary cursor-pointer pr-8">
+<option>Newest</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+</select>
+</div>
+</div>
+</section>
+<!-- Product Grid -->
+<section class="py-section-gap px-margin-desktop max-w-container-max-width mx-auto">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Product Card 1 -->
+<div class="group relative bg-surface-container-lowest overflow-hidden transition-all duration-500 hover:-translate-y-1">
+<div class="aspect-[3/4] bg-surface-container-low overflow-hidden relative">
+<img alt="Royal Heritage Pendant" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A close-up studio shot of a delicate 18k gold necklace from the TAREÉ Royal Heritage collection, resting on a minimalist white ceramic pedestal. The lighting is soft and directional, casting subtle shadows that highlight the intricate link pattern. The aesthetic is clean, luxury, and high-end, focusing on the golden metallic sheen against a soft cream background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJKxC6RS0eZwO8Hng2TenJI0Zmrpe3Zaa6beLfi0DO6sZfcszfuZSQsznoPgsI4yCrmnUoXI-muyzElzY0dO6ZW1Ey1UWthm3Ch_SU1VkwE_HGJduAl67CIoFPiv05-Kd30Im08Xc3vkdOCHSezXnzxlVfzx7CzXJVMt2XHdtDWhLDoGuwBpa1gvMbt3U7ZswPoXc12SvJ_d-9D63BzucKPppLZBYZISDPbFzopVud6D40z9b65H66CwfI8acmTTCri5QJxcFCJWf5"/>
+<button class="absolute top-4 right-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300">
+<button class="bg-secondary-fixed-dim text-primary font-body-md text-label-caps px-6 py-3 uppercase tracking-widest hover:bg-secondary-fixed transition-colors">Quick View</button>
+</div>
+</div>
+<div class="py-6 px-2 text-center">
+<p class="font-body-md text-label-caps text-on-surface-variant/60 uppercase mb-1">Royal Heritage</p>
+<h3 class="font-headline-md text-body-lg text-primary mb-2">Crown Filigree Pendant</h3>
+<p class="font-body-md font-bold text-secondary text-lg">₦145,000</p>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="group relative bg-surface-container-lowest overflow-hidden transition-all duration-500 hover:-translate-y-1">
+<div class="aspect-[3/4] bg-surface-container-low overflow-hidden relative">
+<img alt="Butterfly Diamond Necklace" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A luxurious diamond-encrusted gold pendant necklace displayed elegantly on a soft grey velvet neck form. The piece shines under bright, high-contrast lighting that emphasizes the brilliance of each gemstone. The composition is centered and editorial, with a shallow depth of field focusing on the intricate metalwork. The mood is expensive and sophisticated." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0R7_Cz7F7_R0Sk_TNtJk_5EFjnOgjsSiD-vU7iNqqyS0dj1j4l80jbIOkODr8J3Y1gDBV9Y5isv_knbdliS4TLqJkYg39ykSW9SUpBwp4L4w8Q77l1Sxxpgil-NjtdZEaIniitrTDXhdnSUC66w2d3pYMaNrb8rED0uwyy21traUxikfuPjCHP5xG8xkc6V1JqDueUssbYVzzpN2h8m0VWCto49vNc7dfPPDUHAIkdUW57mc7wuYCjL835TKfLBduOdtRb_reVhzl"/>
+<button class="absolute top-4 right-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300">
+<button class="bg-secondary-fixed-dim text-primary font-body-md text-label-caps px-6 py-3 uppercase tracking-widest hover:bg-secondary-fixed transition-colors">Quick View</button>
+</div>
+</div>
+<div class="py-6 px-2 text-center">
+<p class="font-body-md text-label-caps text-on-surface-variant/60 uppercase mb-1">Butterfly Collection</p>
+<h3 class="font-headline-md text-body-lg text-primary mb-2">Ethereal Wings Diamond Choker</h3>
+<p class="font-body-md font-bold text-secondary text-lg">₦280,000</p>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="group relative bg-surface-container-lowest overflow-hidden transition-all duration-500 hover:-translate-y-1">
+<div class="aspect-[3/4] bg-surface-container-low overflow-hidden relative">
+<img alt="Gold Layered Chains" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Minimalist layered gold chains on a light beige textured surface. The image captures the delicate textures of different link styles, from fine serpents to bold paperclips. The lighting is warm and golden-hour inspired, creating long soft shadows. The overall aesthetic is quiet luxury, emphasizing the daily elegance of high-end jewelry." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4vMtgiSJEosDVnI0yuKakFC_e3WibaDYKmmKl9YYvw2afAmYr1apXRjLHmV71CwCHEXFl7Um8Ri4ivZLovYdRnOliwoIpcAgYXiBjP_nmSYpi2yIu4KwdQbbk7361V1UrLHIa9trHCtarFaNGiKMLhoal3ccS2J9uYPgfRYtOCuTYxBzAphMTHWTttKMQ_a-1X-M9XAnLwKYNZaAjUlRCedwZNTg9cyooKhVJKvWpwI84zLmX01FHOBbpNCdWheVlPnL2ozFMi2UA"/>
+<button class="absolute top-4 right-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300">
+<button class="bg-secondary-fixed-dim text-primary font-body-md text-label-caps px-6 py-3 uppercase tracking-widest hover:bg-secondary-fixed transition-colors">Quick View</button>
+</div>
+</div>
+<div class="py-6 px-2 text-center">
+<p class="font-body-md text-label-caps text-on-surface-variant/60 uppercase mb-1">Legacy Collection</p>
+<h3 class="font-headline-md text-body-lg text-primary mb-2">Triple Layer Heritage Chain</h3>
+<p class="font-body-md font-bold text-secondary text-lg">₦110,000</p>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="group relative bg-surface-container-lowest overflow-hidden transition-all duration-500 hover:-translate-y-1">
+<div class="aspect-[3/4] bg-surface-container-low overflow-hidden relative">
+<img alt="Emerald Legacy Pendant" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A striking emerald green gemstone set in a thick 24k gold pendant, hanging from a solid gold rope chain. The emerald glows with deep saturation against the matte gold finish. The photo uses high-key studio lighting with a clean, ivory background to highlight the richness of the colors. It represents the intersection of African wealth and timeless design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuByKHi53CawGhzL1PL4CQySqRw5Gu5jtpey8VX6Qb_xk8376dwWOwBGd0pnMKmjq8GhBIfQoAMjz6Qfa2XKJxF8iDxDm2Ko23O6TbAumVoskKjdBxoYOTmy3YfIBFv4QmbRqXnJGfF-sWjwf-OJnzOkG1beLFsT2rYJJa2WR-zF1Eywl2o1EswPfMERoTVdlGs03J3p2rXuXGygd9CBfeIzXGcW8PyXKAsFr079VLCWcAPA5KY0f0F_tzEs8djKKAL9R1oh-R9imzIG"/>
+<button class="absolute top-4 right-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300">
+<button class="bg-secondary-fixed-dim text-primary font-body-md text-label-caps px-6 py-3 uppercase tracking-widest hover:bg-secondary-fixed transition-colors">Quick View</button>
+</div>
+</div>
+<div class="py-6 px-2 text-center">
+<p class="font-body-md text-label-caps text-on-surface-variant/60 uppercase mb-1">Royal Heritage</p>
+<h3 class="font-headline-md text-body-lg text-primary mb-2">Zambian Emerald Medallion</h3>
+<p class="font-body-md font-bold text-secondary text-lg">₦325,000</p>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="mt-section-gap-mobile flex flex-col items-center gap-6">
+<button class="border border-secondary text-secondary font-body-md text-label-caps px-12 py-4 uppercase tracking-[0.2em] hover:bg-secondary hover:text-white transition-all duration-300">Load More</button>
+<div class="flex gap-4">
+<span class="font-bold text-primary border-b border-primary py-1">1</span>
+<a class="text-on-surface-variant/40 hover:text-primary transition-colors py-1" href="#">2</a>
+<a class="text-on-surface-variant/40 hover:text-primary transition-colors py-1" href="#">3</a>
+<span class="text-on-surface-variant/40 py-1">...</span>
+<a class="text-on-surface-variant/40 hover:text-primary transition-colors py-1" href="#">12</a>
+</div>
+</div>
+</section>
+<!-- Craftsmanship / SEO Section -->
+<section class="bg-surface-container-low py-section-gap border-y border-outline-variant/10">
+<div class="max-w-3xl mx-auto px-margin-desktop text-center">
+<img class="w-12 h-12 mx-auto mb-8 opacity-40" data-alt="A stylized gold butterfly monogram logo, synonymous with TAREÉ JEWELRY, appearing as a subtle watermark graphic in a high-end web design context. The lines are fluid and symmetrical, evoking royalty and transformation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9Ow-Pnsea2WTZ3PzjmxeORF-9EMtGeKcsM_ddTNBb3TvfF9i6k5j0bDh-iBKyHqDDpBBOfBinK7u0Q6UpeTBlOrcCKnFO8iBjowR-j-3VzSQWC0wg9cqNdXojOd6NgTn-gfK6UGURv_hZk9D1zmK0pTVxg_gABMPR4WGg95nJHbdmsssPbonvTianD0vgX-U3S2sF9WgYTLSdjxZjEe4i8tpdtxJO7aoj-1dAZ6Qc-W5BfbuVk6NvRsH31vFyIgeQF0C_cPCQwDeY"/>
+<h3 class="font-display-lg text-headline-md text-primary mb-6">The Art of Metamorphosis</h3>
+<p class="font-body-md text-on-surface-variant leading-relaxed text-lg italic">
+                    Every TAREÉ necklace is a celebration of heritage and transformation. Handcrafted in our Lagos atelier by master artisans, our pendants utilize traditional African casting techniques merged with modern luxury finishing. From the delicate filigree of our Butterfly Collection to the bold medallions of our Royal Heritage line, our jewelry is designed to be passed down through generations—a golden legacy of African excellence.
+                </p>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-tertiary border-t border-outline-variant/30 w-full py-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-desktop max-w-container-max-width mx-auto">
+<div>
+<div class="flex items-center gap-3 mb-6">
+<img alt="TAREÉ Monogram" class="h-12 w-auto" src="https://lh3.googleusercontent.com/aida/ADBb0ug-yXkKTw1Zo1ysAd5JMu6MZWVVuJoTB_NjwNxgVWsPeGgVh6Am09Iv4E0ZO-7oA_00W4fPuUUgww0Tjeepo-kGog6BHdDHSR92FSSA1XeddNiclPsgLCzbGJb3naqyG83qwyqbWgT2qxw2_dxxIt2U9W-Dheaw8_ChfpbEcr-IVxgsDIc1F2W8hMHBv_NtaWUHm6xywYLVWAnlsCGVtTJD2SQUn1PyF7izLHc_tWbo3bOUdu14JJEZsFe32YiGpfgK9q4S6W_RKfQ"/>
+<h4 class="font-display-lg text-headline-md text-primary leading-none">TAREÉ</h4>
+</div>
+<p class="font-body-md text-on-surface-variant mb-6">Exquisite African luxury jewelry for the modern queen.</p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-primary hover:bg-secondary-fixed-dim transition-colors" href="#"><span class="material-symbols-outlined text-sm" data-icon="share">share</span></a>
+<a class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-primary hover:bg-secondary-fixed-dim transition-colors" href="#"><span class="material-symbols-outlined text-sm" data-icon="public">public</span></a>
+</div>
+</div>
+<div>
+<h5 class="font-body-md text-label-caps text-primary uppercase font-bold mb-6">Shop</h5>
+<ul class="flex flex-col gap-3 font-body-md text-on-surface-variant">
+<li><a class="hover:text-secondary transition-colors" href="#">New Arrivals</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Best Sellers</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Gifts for Her</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Engagement</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-body-md text-label-caps text-primary uppercase font-bold mb-6">Customer Care</h5>
+<ul class="flex flex-col gap-3 font-body-md text-on-surface-variant">
+<li><a class="hover:text-secondary transition-colors" href="#">Shipping &amp; Returns</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Jewelry Care</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Sizing Guide</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">FAQs</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-body-md text-label-caps text-primary uppercase font-bold mb-6">Connect</h5>
+<p class="font-body-md text-on-surface-variant mb-4">Join our royal circle for exclusive access.</p>
+<div class="relative">
+<input class="w-full bg-transparent border-b border-outline focus:border-secondary focus:ring-0 px-0 py-2 font-body-md" placeholder="Email Address" type="email"/>
+<button class="absolute right-0 top-1/2 -translate-y-1/2 text-secondary"><span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span></button>
+</div>
+</div>
+</div>
+<div class="mt-section-gap border-t border-outline-variant/10 pt-8 text-center px-margin-desktop">
+<p class="font-body-md text-label-caps text-on-surface-variant/40 uppercase tracking-widest text-[10px]">© 2024 TAREÉ JEWELRY. Made with love in Nigeria.</p>
+</div>
+</footer>
+</main>
+<!-- Floating WhatsApp Action -->
+<a class="fixed bottom-8 right-8 z-[100] w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-300" href="https://wa.me/234000000000" target="_blank">
+<svg fill="#ffffff" height="28" viewbox="0 0 24 24" width="28" xmlns="http://www.w3.org/2000/svg"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.485 8.413-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.438 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"></path></svg>
+</a>
+</body></html>

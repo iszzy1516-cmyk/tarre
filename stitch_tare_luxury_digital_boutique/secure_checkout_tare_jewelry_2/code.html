@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Your Shopping Bag | TAREÉ JEWELRY</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ba1a1a",
+                        "tertiary": "#070704",
+                        "secondary-fixed-dim": "#e9c349",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-tertiary-container": "#8a8780",
+                        "background": "#f9f9f9",
+                        "on-tertiary-fixed": "#1d1c17",
+                        "tertiary-container": "#211f1a",
+                        "on-secondary-container": "#745c00",
+                        "on-primary-fixed-variant": "#414657",
+                        "outline": "#76777d",
+                        "on-tertiary-fixed-variant": "#494741",
+                        "primary-fixed": "#dee2f7",
+                        "surface": "#f9f9f9",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface-variant": "#e2e2e2",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e8e8e8",
+                        "outline-variant": "#c6c6cd",
+                        "tertiary-fixed-dim": "#cac6be",
+                        "inverse-primary": "#c1c6da",
+                        "on-primary-container": "#828699",
+                        "secondary-fixed": "#ffe088",
+                        "on-surface-variant": "#46464c",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#f9f9f9",
+                        "on-secondary-fixed": "#241a00",
+                        "inverse-surface": "#2f3131",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#c1c6da",
+                        "surface-tint": "#595e6f",
+                        "primary-container": "#1a1f2e",
+                        "inverse-on-surface": "#f0f1f1",
+                        "primary": "#030714",
+                        "on-surface": "#1a1c1c",
+                        "surface-dim": "#dadada",
+                        "surface-container": "#eeeeee",
+                        "on-primary-fixed": "#161b2a",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#e7e2da",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#735c00",
+                        "secondary-container": "#fed65b",
+                        "surface-container-low": "#f3f3f4",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-background": "#1a1c1c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max-width": "1280px",
+                        "base": "8px",
+                        "section-gap-mobile": "64px",
+                        "section-gap": "120px",
+                        "margin-mobile": "20px",
+                        "gutter": "24px",
+                        "margin-desktop": "48px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Playfair Display"],
+                        "body-md": ["Manrope"],
+                        "label-caps": ["Manrope"],
+                        "headline-lg": ["Playfair Display"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "headline-md": ["Playfair Display"],
+                        "body-lg": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                        "headline-lg": ["40px", {"lineHeight": "48px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .butterfly-watermark {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23735c00" opacity="0.03"><path d="M50 20c-5-5-15-10-25-5s-15 15-5 25c5 5 15 10 25 5 0 0 5-5 5-5s5 5 5 5c10 5 20 0 25-5 10-10 0-20-5-25s-20 0-25 5z"/></svg>');
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen butterfly-watermark bg-repeat">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/90 dark:bg-primary/90 backdrop-blur-md shadow-sm border-b border-outline-variant/10">
+<div class="flex flex-col items-center w-full px-margin-desktop py-4 max-w-container-max-width mx-auto">
+<div class="flex items-center justify-between w-full">
+<div class="flex-1 flex gap-gutter hidden md:flex">
+<a class="font-body-md text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">About Us</a>
+<a class="font-body-md text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">Collections</a>
+<a class="font-body-md text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">New Arrivals</a>
+</div>
+<a class="flex-none flex items-center gap-3 group" href="/">
+<img alt="TAREÉ Logo" class="h-10 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ADBb0ug-yXkKTw1Zo1ysAd5JMu6MZWVVuJoTB_NjwNxgVWsPeGgVh6Am09Iv4E0ZO-7oA_00W4fPuUUgww0Tjeepo-kGog6BHdDHSR92FSSA1XeddNiclPsgLCzbGJb3naqyG83qwyqbWgT2qxw2_dxxIt2U9W-Dheaw8_ChfpbEcr-IVxgsDIc1F2W8hMHBv_NtaWUHm6xywYLVWAnlsCGVtTJD2SQUn1PyF7izLHc_tWbo3bOUdu14JJEZsFe32YiGpfgK9q4S6W_RKfQ"/>
+<span class="font-display-lg text-headline-lg text-primary dark:text-secondary-fixed-dim italic tracking-tighter">TAREÉ</span>
+</a>
+<div class="flex-1 flex justify-end gap-6">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-secondary transition-colors">search</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-secondary transition-colors">person</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-secondary transition-colors">favorite</span>
+<div class="relative group">
+<span class="material-symbols-outlined text-secondary font-bold cursor-pointer transition-colors" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+<span class="absolute -top-2 -right-2 bg-secondary text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">1</span>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<main class="mt-[100px] mb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max-width mx-auto">
+<div class="flex flex-col lg:flex-row gap-gutter">
+<!-- Left 60%: Shopping Bag -->
+<section class="lg:w-[60%] flex flex-col">
+<h1 class="font-display-lg text-headline-lg text-secondary mb-10">Your Shopping Bag</h1>
+<!-- Item List -->
+<div class="space-y-8">
+<div class="flex gap-6 pb-8 border-b border-outline-variant/20 items-start">
+<div class="w-32 h-40 bg-surface-container overflow-hidden rounded-lg">
+<img class="w-full h-full object-cover" data-alt="A macro shot of a luxurious diamond choker with intricate butterfly-wing inspired filigree work in 18k yellow gold. The necklace is displayed on a soft velvet bust under warm, editorial lighting with a shallow depth of field. The aesthetic is opulent and regal, matching a high-end African jewelry boutique style with cream and gold tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnA-t5CUr4eDjrGPbUKndfYsS_lCescn-_x_k4iYhNfiUW1UsYRb7Mu0ftcKqOUCcuI4wVhP-vWZWf-qWrRF3zsfWr-75FwYoQftonXC3cQq66g1Qx10ZYjGwW10715sV-X_XhPxOUGHUFtPn0kFlq0qaqWH3pRMHSj6FLWDGXUvSM1le1wSgVBZ3UkXLdBF_a60Efo4bYZaLqC4uT-Jk4N3KdebmEnuzZ9KQ__mDIV-5vw-RvR7epNlzia66m9i1cyG8gH5z6pfIE"/>
+</div>
+<div class="flex-1 flex flex-col">
+<div class="flex justify-between items-start">
+<h3 class="font-display-lg text-headline-md text-primary leading-tight">Ethereal Wings Diamond Choker</h3>
+<button class="text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<p class="font-body-md text-on-surface-variant mt-1">18k Yellow Gold &amp; Ethically Sourced Diamonds</p>
+<div class="mt-auto flex justify-between items-end">
+<div class="flex items-center border border-outline-variant rounded px-2 py-1">
+<button class="px-2 py-1 hover:text-secondary"><span class="material-symbols-outlined text-sm">remove</span></button>
+<span class="px-4 font-bold text-sm">1</span>
+<button class="px-2 py-1 hover:text-secondary"><span class="material-symbols-outlined text-sm">add</span></button>
+</div>
+<span class="font-display-lg text-headline-md text-primary tracking-tight">₦280,000</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bag Summary -->
+<div class="mt-12 space-y-4">
+<div class="flex justify-between font-body-md text-on-surface-variant">
+<span>Subtotal</span>
+<span>₦280,000</span>
+</div>
+<div class="flex justify-between font-body-md text-on-surface-variant">
+<span>Shipping</span>
+<span class="text-secondary font-bold">Free</span>
+</div>
+<div class="pt-6 border-t border-outline-variant/30 flex justify-between items-center">
+<span class="font-label-caps uppercase text-on-surface-variant tracking-widest">Total</span>
+<span class="font-display-lg text-headline-lg text-primary">₦280,000</span>
+</div>
+</div>
+<div class="mt-8 flex items-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary">local_shipping</span>
+<p class="text-sm">Complimentary white-glove delivery in Lagos &amp; Abuja within 48 hours.</p>
+</div>
+</section>
+<!-- Right 40%: Order Summary & Payment -->
+<aside class="lg:w-[40%]">
+<div class="bg-[#f5f0e8] p-8 rounded-xl border border-secondary/10 sticky top-[120px]">
+<h2 class="font-display-lg text-headline-md text-primary mb-8 border-b border-secondary/20 pb-4">Secure Checkout</h2>
+<form class="space-y-6">
+<!-- Contact Info -->
+<div class="space-y-4">
+<label class="block">
+<span class="font-label-caps uppercase text-on-surface-variant text-[10px] mb-1 block">Contact Email</span>
+<input class="w-full bg-transparent border-0 border-b border-outline-variant focus:ring-0 focus:border-secondary font-body-md py-2" placeholder="queen@regal.ng" type="email"/>
+</label>
+</div>
+<!-- Shipping Info -->
+<div class="space-y-4 pt-4">
+<span class="font-label-caps uppercase text-on-surface-variant tracking-widest block mb-2">Shipping Address</span>
+<label class="block">
+<input class="w-full bg-transparent border-0 border-b border-outline-variant focus:ring-0 focus:border-secondary font-body-md py-2" placeholder="Full Name" type="text"/>
+</label>
+<label class="block">
+<input class="w-full bg-transparent border-0 border-b border-outline-variant focus:ring-0 focus:border-secondary font-body-md py-2" placeholder="Street Address" type="text"/>
+</label>
+<div class="grid grid-cols-2 gap-4">
+<select class="bg-transparent border-0 border-b border-outline-variant focus:ring-0 focus:border-secondary font-body-md py-2 px-0">
+<option>Lagos</option>
+<option>Abuja (FCT)</option>
+<option>Port Harcourt</option>
+<option>Kano</option>
+</select>
+<input class="w-full bg-transparent border-0 border-b border-outline-variant focus:ring-0 focus:border-secondary font-body-md py-2" placeholder="City" type="text"/>
+</div>
+</div>
+<!-- Delivery Methods -->
+<div class="pt-4">
+<span class="font-label-caps uppercase text-on-surface-variant tracking-widest block mb-4">Delivery Method</span>
+<div class="space-y-3">
+<label class="flex items-center justify-between p-3 border border-secondary/30 bg-surface-container-lowest cursor-pointer group">
+<div class="flex items-center gap-3">
+<input checked="" class="text-secondary focus:ring-secondary h-4 w-4" name="delivery" type="radio"/>
+<span class="text-sm font-medium">Standard Delivery</span>
+</div>
+<span class="text-xs text-secondary font-bold">Free</span>
+</label>
+<label class="flex items-center justify-between p-3 border border-outline-variant/30 hover:border-secondary/30 transition-colors cursor-pointer group">
+<div class="flex items-center gap-3">
+<input class="text-secondary focus:ring-secondary h-4 w-4" name="delivery" type="radio"/>
+<span class="text-sm font-medium">Luxe Express (Next Day)</span>
+</div>
+<span class="text-xs font-bold">₦15,000</span>
+</label>
+</div>
+</div>
+<!-- Payment Logos -->
+<div class="pt-4 flex flex-wrap gap-4 items-center opacity-70 filter grayscale hover:grayscale-0 transition-all duration-500">
+<img alt="Visa" class="h-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4djuNtMbn5AsdV8bAAMEWvqI_jpNXMpmqwSppxA1xJzaQky5dYO72o2Izg7jGGaZ1QrxNfapShDQY18OzhmZnDujg7spIePxag5EqL3YjvIA9_hcxJxOM8GXL5-WyqSvXuKUKsOqkdKXn3Met2Vt9JJ-pUqtXzS1kWv0opUVfKlASRUZ6pVqvUMh3q3P2xtlw_L-mQct-zheq2bhwyA9ImYk9O0x25Q8XBQtzpFODpBsoOJqduDaNxh2hQVZ3Rj22d-4ozGrmr5KA"/>
+<img alt="Mastercard" class="h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLXoPl66eDYYo1qdnEOV2ARov_b_ZbXtKq3WoZJEVHDQewm6QsnoQ7J2CHo2b1cpgYA2oufqClFu-jeWuwFWiAA6UHtNe3KbiRHMI9AHraaOX7EBItQHvNHVB5qMOIe9KwnM6Ng0cd4WkC5nFNDSDY312m-BtRBLjdfVVba1vKnJzN4PQeatSXvY-XvO81mcHwPi7M_6XORgEYkeG29lwQ6xkYdr798jv9AyUAFzydP12gklT2RkveIiy1ZMNJ0Lht_3iGBfkqE54Y"/>
+<span class="text-[10px] font-bold tracking-widest text-primary uppercase">Paystack</span>
+<span class="text-[10px] font-bold tracking-widest text-primary uppercase">Flutterwave</span>
+</div>
+<!-- CTA -->
+<button class="w-full bg-primary text-secondary-fixed-dim py-5 font-label-caps uppercase tracking-[0.25em] hover:bg-tertiary transition-all duration-300 shadow-xl active:scale-95 flex items-center justify-center gap-3">
+                            Place Order 
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+<!-- Trust Badges -->
+<div class="flex justify-center gap-6 pt-4">
+<div class="flex flex-col items-center gap-1 opacity-50">
+<span class="material-symbols-outlined text-lg">verified_user</span>
+<span class="text-[9px] font-label-caps uppercase text-center">SSL Secure Checkout</span>
+</div>
+<div class="flex flex-col items-center gap-1 opacity-50">
+<span class="material-symbols-outlined text-lg">enhanced_encryption</span>
+<span class="text-[9px] font-label-caps uppercase text-center">256-bit Encryption</span>
+</div>
+</div>
+</form>
+</div>
+</aside>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-section-gap bg-surface-container-lowest border-t border-outline-variant/30">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-desktop max-w-container-max-width mx-auto">
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-3">
+<img alt="TAREÉ Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ADBb0ug-yXkKTw1Zo1ysAd5JMu6MZWVVuJoTB_NjwNxgVWsPeGgVh6Am09Iv4E0ZO-7oA_00W4fPuUUgww0Tjeepo-kGog6BHdDHSR92FSSA1XeddNiclPsgLCzbGJb3naqyG83qwyqbWgT2qxw2_dxxIt2U9W-Dheaw8_ChfpbEcr-IVxgsDIc1F2W8hMHBv_NtaWUHm6xywYLVWAnlsCGVtTJD2SQUn1PyF7izLHc_tWbo3bOUdu14JJEZsFe32YiGpfgK9q4S6W_RKfQ"/>
+<span class="font-display-lg text-headline-md text-primary italic">TAREÉ</span>
+</div>
+<p class="text-on-surface-variant font-body-md opacity-80">Redefining African luxury through master craftsmanship and timeless design heritage.</p>
+</div>
+<div>
+<h4 class="font-label-caps uppercase text-primary mb-6 tracking-widest">Shop</h4>
+<ul class="space-y-4 text-on-surface-variant">
+<li><a class="hover:text-secondary transition-colors" href="#">Fine Jewelry</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Bespoke Orders</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Men's Collection</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-caps uppercase text-primary mb-6 tracking-widest">Customer Care</h4>
+<ul class="space-y-4 text-on-surface-variant">
+<li><a class="hover:text-secondary transition-colors" href="#">Shipping &amp; Returns</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Size Guide</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Care Instructions</a></li>
+</ul>
+</div>
+<div class="flex flex-col gap-6">
+<h4 class="font-label-caps uppercase text-primary mb-2 tracking-widest">Newsletter</h4>
+<div class="flex border-b border-outline-variant">
+<input class="bg-transparent border-0 py-2 flex-1 focus:ring-0 text-sm" placeholder="Join the inner circle" type="email"/>
+<button class="px-2 text-secondary transition-transform hover:translate-x-1">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="flex gap-4 mt-2">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-secondary">public</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-secondary">movie</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-secondary">camera_alt</span>
+</div>
+</div>
+</div>
+<div class="mt-20 pt-10 border-t border-outline-variant/10 text-center">
+<p class="font-label-caps text-[10px] text-on-surface-variant tracking-[0.2em]">© 2024 TAREÉ JEWELRY. Made with love in Nigeria.</p>
+</div>
+</footer>
+<!-- Floating WhatsApp Button -->
+<a class="fixed bottom-8 right-8 bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform z-50" href="#">
+<svg fill="currentColor" height="32" viewbox="0 0 24 24" width="32">
+<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path>
+</svg>
+</a>
+</body></html>
