@@ -5,8 +5,7 @@ from decimal import Decimal
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.database import async_session_maker, engine
-from app.models import Base
+from app.database import async_session_maker, engine, Base
 from app.models.category import Category
 from app.models.product import Product, ProductImage, ProductVariant
 from app.models.banner import Banner, BannerPosition

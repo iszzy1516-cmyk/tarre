@@ -39,3 +39,4 @@ coverage/
 .~lock.*#
 *.lockb
 taree-api/.venv
+server.pid

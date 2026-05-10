@@ -21,7 +21,7 @@ class User(Base):
     email_verified: Mapped[bool] = mapped_column(default=False)
     is_active: Mapped[bool] = mapped_column(default=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
-    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), onupdate=func.now())
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
     addresses: Mapped[List["Address"]] = relationship(back_populates="user", cascade="all, delete-orphan")
     orders: Mapped[List["Order"]] = relationship(back_populates="user")
