@@ -1,11 +1,12 @@
 from datetime import datetime
 from decimal import Decimal
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, field_serializer
 
 
 class ProductImageSchema(BaseModel):
     id: str
     url: str
+    public_id: str | None
     alt_text: str | None
     sort_order: int
     is_primary: bool
@@ -17,9 +18,13 @@ class ProductImageSchema(BaseModel):
 class ProductVariantSchema(BaseModel):
     id: str
     name: str
-    price_adjustment: Decimal | None
+    price_adjustment: float | None
     stock_quantity: int
     sku: str
+
+    @field_serializer("price_adjustment")
+    def serialize_price_adjustment(self, value: Decimal | None) -> float | None:
+        return float(value) if value is not None else None
 
     class Config:
         from_attributes = True
@@ -40,8 +45,9 @@ class ProductSchema(BaseModel):
     slug: str
     description: str
     short_description: str | None
-    price: Decimal
-    compare_at_price: Decimal | None
+    price: float
+    compare_at_price: float | None
+    cost_price: float | None
     sku: str
     stock_quantity: int
     material: str | None
@@ -53,6 +59,10 @@ class ProductSchema(BaseModel):
     variants: list[ProductVariantSchema]
     created_at: datetime
 
+    @field_serializer("price", "compare_at_price", "cost_price")
+    def serialize_decimal(self, value: Decimal | None) -> float | None:
+        return float(value) if value is not None else None
+
     class Config:
         from_attributes = True
 
@@ -61,14 +71,18 @@ class ProductListSchema(BaseModel):
     id: str
     name: str
     slug: str
-    price: Decimal
-    compare_at_price: Decimal | None
+    price: float
+    compare_at_price: float | None
     sku: str
     stock_quantity: int
     is_new_arrival: bool
     is_featured: bool
     images: list[ProductImageSchema]
     category: CategoryBriefSchema
+
+    @field_serializer("price", "compare_at_price")
+    def serialize_decimal(self, value: Decimal | None) -> float | None:
+        return float(value) if value is not None else None
 
     class Config:
         from_attributes = True

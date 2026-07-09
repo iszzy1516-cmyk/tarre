@@ -1,7 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSEO } from "../hooks/useSEO";
 import { useState } from "react";
+import { Loader2 } from "lucide-react";
+import { useAuthStore } from "../stores/authStore";
 
 export default function RegisterPage() {
+  useSEO("Create Account | TAREÉ Jewelry", "Join the TAREÉ family and discover luxury African jewelry.");
+  const navigate = useNavigate();
+  const { register, isLoading } = useAuthStore();
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -9,9 +15,28 @@ export default function RegisterPage() {
     password: "",
     confirmPassword: "",
   });
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+
+    if (form.password !== form.confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    try {
+      await register({
+        email: form.email,
+        password: form.password,
+        first_name: form.firstName,
+        last_name: form.lastName,
+      });
+      navigate("/login");
+    } catch (err: any) {
+      setError(err.response?.data?.detail || "Registration failed. Please try again.");
+    }
   };
 
   return (
@@ -21,6 +46,12 @@ export default function RegisterPage() {
           <h1 className="font-display text-headline-lg text-primary mb-4">Join the Circle</h1>
           <p className="text-on-surface-variant font-body">Create your TAREÉ account</p>
         </div>
+
+        {error && (
+          <div className="bg-error/10 text-error px-4 py-3 mb-6 text-sm font-body">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-2 gap-4">
@@ -91,9 +122,17 @@ export default function RegisterPage() {
 
           <button
             type="submit"
-            className="w-full bg-luxury-navy text-champagne-gold py-4 text-label-caps uppercase tracking-widest hover:bg-champagne-gold hover:text-luxury-navy transition-all duration-300"
+            disabled={isLoading}
+            className="w-full bg-luxury-navy text-champagne-gold py-4 text-label-caps uppercase tracking-widest hover:bg-champagne-gold hover:text-luxury-navy transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
           >
-            Create Account
+            {isLoading ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Creating account...
+              </>
+            ) : (
+              "Create Account"
+            )}
           </button>
         </form>
 

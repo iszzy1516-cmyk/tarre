@@ -11,6 +11,9 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = 15
     refresh_token_expire_days: int = 7
 
+    # Environment
+    environment: str = "development"  # development, production
+
     # Frontend
     frontend_url: str = "http://localhost:5173"
 
@@ -39,6 +42,9 @@ class Settings(BaseSettings):
     twilio_account_sid: str = ""
     twilio_auth_token: str = ""
     twilio_whatsapp_number: str = ""
+
+    # Bot API Key
+    bot_api_key: str = "change-me-in-production"
 
     class Config:
         env_file = ".env"

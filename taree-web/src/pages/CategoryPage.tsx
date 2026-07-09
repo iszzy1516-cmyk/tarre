@@ -1,83 +1,57 @@
 import { useParams, Link } from "react-router-dom";
-import { SlidersHorizontal } from "lucide-react";
+import { useSEO } from "../hooks/useSEO";
+import { useQuery } from "@tanstack/react-query";
+import { SlidersHorizontal, Loader2 } from "lucide-react";
 import { formatNaira } from "../lib/utils";
+import { api } from "../lib/api";
 import type { Product } from "../types";
 
-const products: Product[] = [
-  {
-    id: "1",
-    name: "Crown Filigree Pendant",
-    slug: "crown-filigree-pendant",
-    description: "",
-    price: 145000,
-    sku: "TAR-CFP-001",
-    images: [{ id: "i1", url: "/images/beaded-necklace.png", alt: "Crown Filigree Pendant", sortOrder: 0, isPrimary: true }],
-    category: { id: "c1", name: "Necklaces & Pendants", slug: "necklaces-pendants" },
-    isNewArrival: true,
-    isFeatured: true,
-    isActive: true,
-    stockQuantity: 10,
-  },
-  {
-    id: "5",
-    name: "Ethereal Wings Diamond Choker",
-    slug: "ethereal-wings-diamond-choker",
-    description: "",
-    price: 280000,
-    sku: "TAR-EWC-005",
-    images: [{ id: "i5", url: "/images/ethereal-wings-choker.png", alt: "Ethereal Wings Choker", sortOrder: 0, isPrimary: true }],
-    category: { id: "c1", name: "Necklaces & Pendants", slug: "necklaces-pendants" },
-    isNewArrival: false,
-    isFeatured: true,
-    isActive: true,
-    stockQuantity: 5,
-  },
-  {
-    id: "9",
-    name: "Triple Layer Heritage Chain",
-    slug: "triple-layer-heritage-chain",
-    description: "",
-    price: 110000,
-    sku: "TAR-TLH-009",
-    images: [{ id: "i9", url: "/images/woven-necklace.png", alt: "Triple Layer Heritage Chain", sortOrder: 0, isPrimary: true }],
-    category: { id: "c1", name: "Necklaces & Pendants", slug: "necklaces-pendants" },
-    isNewArrival: false,
-    isFeatured: true,
-    isActive: true,
-    stockQuantity: 15,
-  },
-  {
-    id: "6",
-    name: "Zambian Emerald Medallion",
-    slug: "zambian-emerald-medallion",
-    description: "",
-    price: 325000,
-    sku: "TAR-ZEM-006",
-    images: [{ id: "i6", url: "/images/emerald-pendant.png", alt: "Zambian Emerald Medallion", sortOrder: 0, isPrimary: true }],
-    category: { id: "c1", name: "Necklaces & Pendants", slug: "necklaces-pendants" },
-    isNewArrival: false,
-    isFeatured: true,
-    isActive: true,
-    stockQuantity: 7,
-  },
-];
+async function fetchCategoryProducts(categorySlug: string): Promise<Product[]> {
+  const { data } = await api.get(`/products?category=${categorySlug}`);
+  return data.map((p: any) => ({
+    ...p,
+    images: p.images.map((img: any) => ({
+      id: img.id,
+      url: img.url,
+      alt: img.alt_text,
+      sortOrder: img.sort_order,
+      isPrimary: img.is_primary,
+    })),
+    category: p.category,
+    isNewArrival: p.is_new_arrival,
+    isFeatured: p.is_featured,
+    isActive: p.is_active,
+    stockQuantity: p.stock_quantity,
+    compareAtPrice: p.compare_at_price,
+    shortDescription: p.short_description,
+  }));
+}
 
-const categories = [
-  "Necklaces & Pendants",
-  "Earrings",
-  "Bracelets & Bangles",
-  "Rings",
-  "Watches",
-  "Bridal",
-  "Men's",
-  "Gift Sets",
-];
+async function fetchCategories(): Promise<{ id: string; name: string; slug: string }[]> {
+  const { data } = await api.get("/categories");
+  return data;
+}
 
 export default function CategoryPage() {
+  useSEO("Category | TAREÉ Jewelry", "Browse jewelry by category.");
   const { slug } = useParams<{ slug: string }>();
-  const categoryName = slug
-    ? slug.replace(/-/g, " & ").replace(/\b\w/g, (l) => l.toUpperCase())
-    : "All Products";
+
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchCategories,
+  });
+
+  const {
+    data: products,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["products", "category", slug],
+    queryFn: () => fetchCategoryProducts(slug!),
+    enabled: !!slug,
+  });
+
+  const categoryName = categories?.find((c) => c.slug === slug)?.name || slug?.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
 
   return (
     <div className="pt-[160px] pb-section">
@@ -104,17 +78,17 @@ export default function CategoryPage() {
                 Collections
               </h3>
               <ul className="space-y-4">
-                {categories.map((cat) => (
-                  <li key={cat}>
+                {categories?.map((cat) => (
+                  <li key={cat.id}>
                     <Link
-                      to={`/categories/${cat.toLowerCase().replace(/ & /g, "-").replace(/ /g, "-")}`}
+                      to={`/categories/${cat.slug}`}
                       className={`text-sm font-body transition-colors ${
-                        cat === categoryName
+                        cat.slug === slug
                           ? "text-secondary font-bold"
                           : "text-on-surface-variant hover:text-primary"
                       }`}
                     >
-                      {cat}
+                      {cat.name}
                     </Link>
                   </li>
                 ))}
@@ -153,50 +127,51 @@ export default function CategoryPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter">
-              {products.map((product) => (
-                <Link
-                  key={product.id}
-                  to={`/products/${product.slug}`}
-                  className="group cursor-pointer block"
-                >
-                  <div className="relative aspect-square bg-surface-container-low overflow-hidden mb-4">
-                    <img
-                      src={product.images[0]?.url}
-                      alt={product.images[0]?.alt || product.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="text-center">
-                    <p className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1 font-body">
-                      {product.category.name}
-                    </p>
-                    <h3 className="font-display text-body-lg text-primary mb-1">
-                      {product.name}
-                    </h3>
-                    <p className="text-secondary font-bold font-body">
-                      {formatNaira(product.price)}
-                    </p>
-                  </div>
+            {isLoading ? (
+              <div className="flex justify-center py-20">
+                <Loader2 className="w-8 h-8 text-secondary animate-spin" />
+              </div>
+            ) : error ? (
+              <div className="text-center py-20">
+                <p className="text-on-surface-variant font-body">Failed to load products.</p>
+              </div>
+            ) : products?.length === 0 ? (
+              <div className="text-center py-20">
+                <p className="text-on-surface-variant font-body">No products found in this category.</p>
+                <Link to="/products" className="text-secondary hover:underline font-body text-sm mt-4 inline-block">
+                  View all products
                 </Link>
-              ))}
-            </div>
-
-            {/* Load More */}
-            <div className="mt-12 text-center">
-              <button className="border border-outline-variant px-8 py-3 text-label-caps uppercase tracking-widest text-on-surface-variant hover:border-primary hover:text-primary transition-colors font-body">
-                Load More
-              </button>
-            </div>
-
-            {/* Pagination */}
-            <div className="mt-8 flex justify-center gap-2 text-sm font-body">
-              <span className="w-8 h-8 flex items-center justify-center bg-primary text-white">1</span>
-              <span className="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary cursor-pointer">2</span>
-              <span className="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary cursor-pointer">3</span>
-              <span className="w-8 h-8 flex items-center justify-center text-on-surface-variant">...</span>
-              <span className="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary cursor-pointer">12</span>
-            </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter">
+                {products?.map((product) => (
+                  <Link
+                    key={product.id}
+                    to={`/products/${product.slug}`}
+                    className="group cursor-pointer block"
+                  >
+                    <div className="relative aspect-square bg-surface-container-low overflow-hidden mb-4">
+                      <img
+                        src={product.images[0]?.url}
+                        alt={product.images[0]?.alt || product.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                    <div className="text-center">
+                      <p className="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1 font-body">
+                        {product.category.name}
+                      </p>
+                      <h3 className="font-display text-body-lg text-primary mb-1">
+                        {product.name}
+                      </h3>
+                      <p className="text-secondary font-bold font-body">
+                        {formatNaira(product.price)}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

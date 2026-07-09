@@ -16,7 +16,7 @@ export default function AboutSection() {
           >
             <div className="relative pr-12 pb-12">
               <img
-                src="/images/gold-rings-dark.png"
+                src="/images/real/medallion-pendant-bust.jpg"
                 alt="TAREÉ craftsmanship"
                 className="w-full aspect-square object-cover relative z-10 shadow-xl"
               />

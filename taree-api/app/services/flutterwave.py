@@ -1,3 +1,5 @@
+import hashlib
+import hmac
 import httpx
 from app.config import settings
 
@@ -36,6 +38,16 @@ class FlutterwaveService:
             )
             resp.raise_for_status()
             return resp.json()["data"]
+
+    def verify_webhook(self, payload: bytes, signature: str | None) -> bool:
+        if not signature or not self.secret_key:
+            return False
+        expected = hmac.new(
+            self.secret_key.encode("utf-8"),
+            payload,
+            hashlib.sha256,
+        ).hexdigest()
+        return hmac.compare_digest(expected, signature)
 
 
 flutterwave = FlutterwaveService()

@@ -52,6 +52,20 @@ async def initialize_payment(
         )
         return {"authorization_url": flw_data["link"], "reference": reference}
 
+    elif order.payment_method == "bank_transfer":
+        order.payment_status = PaymentStatus.PENDING
+        await db.commit()
+        return {
+            "status": "pending",
+            "message": "Please complete your bank transfer. Our team will verify and update your order status.",
+            "reference": reference,
+            "bank_details": {
+                "bank_name": "TAREÉ Jewelry Holdings",
+                "account_number": "0000000000",
+                "account_name": "TAREÉ Jewelry Ltd",
+            },
+        }
+
     else:
         raise HTTPException(status_code=400, detail="Unsupported payment method")
 
@@ -68,14 +82,27 @@ async def verify_payment(
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
 
+    # Try Paystack first, then Flutterwave
+    success = False
     try:
         verification = await paystack.verify(data.reference)
-        if verification["status"] == "success":
-            order.payment_status = PaymentStatus.PAID
-            await db.commit()
-            return {"status": "success", "order_id": order.id}
+        if verification.get("status") == "success":
+            success = True
     except Exception:
         pass
+
+    if not success:
+        try:
+            verification = await flutterwave.verify(data.reference)
+            if verification.get("status") == "successful":
+                success = True
+        except Exception:
+            pass
+
+    if success:
+        order.payment_status = PaymentStatus.PAID
+        await db.commit()
+        return {"status": "success", "order_id": order.id}
 
     order.payment_status = PaymentStatus.FAILED
     await db.commit()
@@ -95,6 +122,28 @@ async def paystack_webhook(request: Request, db: AsyncSession = Depends(get_db))
         reference = event["data"]["reference"]
         result = await db.execute(
             select(Order).where(Order.payment_reference == reference)
+        )
+        order = result.scalar_one_or_none()
+        if order:
+            order.payment_status = PaymentStatus.PAID
+            await db.commit()
+
+    return {"received": True}
+
+
+@router.post("/webhook/flutterwave")
+async def flutterwave_webhook(request: Request, db: AsyncSession = Depends(get_db)):
+    payload = await request.body()
+    signature = request.headers.get("verif-hash")
+
+    if not flutterwave.verify_webhook(payload, signature):
+        raise HTTPException(status_code=400, detail="Invalid signature")
+
+    event = await request.json()
+    if event.get("event") == "charge.completed" and event.get("data", {}).get("status") == "successful":
+        tx_ref = event["data"]["tx_ref"]
+        result = await db.execute(
+            select(Order).where(Order.payment_reference == tx_ref)
         )
         order = result.scalar_one_or_none()
         if order:

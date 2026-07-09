@@ -33,7 +33,7 @@ export default function Footer() {
               <img
                 src="/images/logo.png"
                 alt="TAREÉ"
-                className="h-14 w-auto object-contain"
+                className="h-20 w-auto object-contain"
               />
             </Link>
             <p className="text-on-surface-variant font-body-md opacity-80 leading-relaxed">

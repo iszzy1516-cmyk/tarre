@@ -5,6 +5,8 @@ from app.models.order import Order, OrderItem, OrderStatus, PaymentStatus
 from app.models.review import Review
 from app.models.wishlist import WishlistItem
 from app.models.banner import Banner, BannerPosition
+from app.models.cart import CartItem
+from app.models.token_blacklist import TokenBlacklist
 
 __all__ = [
     "User",
@@ -23,4 +25,6 @@ __all__ = [
     "WishlistItem",
     "Banner",
     "BannerPosition",
+    "CartItem",
+    "TokenBlacklist",
 ]

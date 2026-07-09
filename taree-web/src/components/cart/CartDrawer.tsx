@@ -113,7 +113,7 @@ export default function CartDrawer() {
                   Shipping and taxes calculated at checkout
                 </p>
                 <Link
-                  to="/cart"
+                  to="/checkout"
                   onClick={closeDrawer}
                   className="block w-full bg-luxury-navy text-champagne-gold py-4 text-label-caps uppercase tracking-widest text-center hover:bg-champagne-gold hover:text-luxury-navy transition-all duration-300"
                 >

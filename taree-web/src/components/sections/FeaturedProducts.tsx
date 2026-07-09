@@ -1,207 +1,186 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { formatNaira } from "../../lib/utils";
 import { useCartStore } from "../../stores/cartStore";
+import { useWishlist } from "../../stores/wishlistStore";
+import { useAuthStore } from "../../stores/authStore";
+import { useToastStore } from "../../stores/toastStore";
+import { api } from "../../lib/api";
 import type { Product } from "../../types";
+import { Loader2, Heart } from "lucide-react";
 
-const products: Product[] = [
-  {
-    id: "1",
-    name: "Butterfly Monogram Necklace",
-    slug: "butterfly-monogram-necklace",
-    description: "",
-    price: 450000,
-    sku: "TAR-BMN-001",
-    images: [{ id: "i1", url: "/images/butterfly-necklace.png", alt: "Butterfly Monogram Necklace", sortOrder: 0, isPrimary: true }],
-    category: { id: "c1", name: "Necklaces", slug: "necklaces" },
-    isNewArrival: true,
-    isFeatured: true,
-    isActive: true,
-    stockQuantity: 10,
-  },
-  {
-    id: "2",
-    name: "Royal Heritage Hoops",
-    slug: "royal-heritage-hoops",
-    description: "",
-    price: 320000,
-    sku: "TAR-RHH-002",
-    images: [{ id: "i2", url: "/images/gold-hoops.png", alt: "Royal Heritage Hoops", sortOrder: 0, isPrimary: true }],
-    category: { id: "c2", name: "Earrings", slug: "earrings" },
-    isNewArrival: true,
-    isFeatured: true,
-    isActive: true,
-    stockQuantity: 15,
-  },
-  {
-    id: "3",
-    name: "Legacy Wave Cuff",
-    slug: "legacy-wave-cuff",
-    description: "",
-    price: 680000,
-    sku: "TAR-LWC-003",
-    images: [{ id: "i3", url: "/images/wave-cuff.png", alt: "Legacy Wave Cuff", sortOrder: 0, isPrimary: true }],
-    category: { id: "c3", name: "Bracelets", slug: "bracelets" },
-    isNewArrival: false,
-    isFeatured: true,
-    isActive: true,
-    stockQuantity: 8,
-  },
-  {
-    id: "4",
-    name: "Crown Signet Ring",
-    slug: "crown-signet-ring",
-    description: "",
-    price: 280000,
-    sku: "TAR-CSR-004",
-    images: [{ id: "i4", url: "/images/crown-ring.png", alt: "Crown Signet Ring", sortOrder: 0, isPrimary: true }],
-    category: { id: "c4", name: "Rings", slug: "rings" },
-    isNewArrival: true,
-    isFeatured: true,
-    isActive: true,
-    stockQuantity: 20,
-  },
-];
+async function fetchBestsellers(): Promise<Product[]> {
+  const { data } = await api.get("/products", { params: { sort: "bestseller", limit: 8 } });
+  return data.map((p: any) => ({
+    ...p,
+    images: p.images.map((img: any) => ({
+      id: img.id,
+      url: img.url,
+      alt: img.alt_text,
+      sortOrder: img.sort_order,
+      isPrimary: img.is_primary,
+    })),
+    category: p.category,
+    isNewArrival: p.is_new_arrival,
+    isFeatured: p.is_featured,
+    isActive: p.is_active,
+    stockQuantity: p.stock_quantity,
+    compareAtPrice: p.compare_at_price,
+    shortDescription: p.short_description,
+  }));
+}
 
-const bestsellers: Product[] = [
-  {
-    id: "5",
-    name: "Ethereal Wings Diamond Choker",
-    slug: "ethereal-wings-diamond-choker",
-    description: "",
-    price: 280000,
-    sku: "TAR-EWC-005",
-    images: [{ id: "i5", url: "/images/ethereal-wings-choker.png", alt: "Ethereal Wings Choker", sortOrder: 0, isPrimary: true }],
-    category: { id: "c1", name: "Necklaces", slug: "necklaces" },
-    isNewArrival: false,
-    isFeatured: true,
-    isActive: true,
-    stockQuantity: 5,
-  },
-  {
-    id: "6",
-    name: "Zambian Emerald Medallion",
-    slug: "zambian-emerald-medallion",
-    description: "",
-    price: 325000,
-    sku: "TAR-ZEM-006",
-    images: [{ id: "i6", url: "/images/emerald-pendant.png", alt: "Zambian Emerald Medallion", sortOrder: 0, isPrimary: true }],
-    category: { id: "c1", name: "Necklaces", slug: "necklaces" },
-    isNewArrival: false,
-    isFeatured: true,
-    isActive: true,
-    stockQuantity: 7,
-  },
-  {
-    id: "7",
-    name: "Metamorphosis Bangle",
-    slug: "metamorphosis-bangle",
-    description: "",
-    price: 185000,
-    sku: "TAR-MTB-007",
-    images: [{ id: "i7", url: "/images/gold-bracelets.png", alt: "Metamorphosis Bangle", sortOrder: 0, isPrimary: true }],
-    category: { id: "c3", name: "Bracelets", slug: "bracelets" },
-    isNewArrival: false,
-    isFeatured: true,
-    isActive: true,
-    stockQuantity: 12,
-  },
-  {
-    id: "8",
-    name: "Butterfly Wing Studs",
-    slug: "butterfly-wing-studs",
-    description: "",
-    price: 120000,
-    sku: "TAR-BWS-008",
-    images: [{ id: "i8", url: "/images/ethereal-wings-sketch.png", alt: "Butterfly Wing Studs", sortOrder: 0, isPrimary: true }],
-    category: { id: "c2", name: "Earrings", slug: "earrings" },
-    isNewArrival: false,
-    isFeatured: true,
-    isActive: true,
-    stockQuantity: 18,
-  },
-];
+async function fetchNewArrivals(): Promise<Product[]> {
+  const { data } = await api.get("/products/new-arrivals");
+  return data.map((p: any) => ({
+    ...p,
+    images: p.images.map((img: any) => ({
+      id: img.id,
+      url: img.url,
+      alt: img.alt_text,
+      sortOrder: img.sort_order,
+      isPrimary: img.is_primary,
+    })),
+    category: p.category,
+    isNewArrival: p.is_new_arrival,
+    isFeatured: p.is_featured,
+    isActive: p.is_active,
+    stockQuantity: p.stock_quantity,
+    compareAtPrice: p.compare_at_price,
+    shortDescription: p.short_description,
+  }));
+}
 
 export default function FeaturedProducts() {
   const [activeTab, setActiveTab] = useState<"new" | "bestsellers">("new");
-  const items = activeTab === "new" ? products : bestsellers;
+  const { addItem } = useCartStore();
+  const { isAuthenticated } = useAuthStore();
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
+  const addToast = useToastStore((s) => s.addToast);
+
+  const { data: newArrivals, isLoading: loadingNew } = useQuery({
+    queryKey: ["products", "new-arrivals"],
+    queryFn: fetchNewArrivals,
+  });
+
+  const { data: bestsellers, isLoading: loadingBestsellers } = useQuery({
+    queryKey: ["products", "bestsellers"],
+    queryFn: fetchBestsellers,
+  });
+
+  const products = activeTab === "new" ? newArrivals : bestsellers;
+  const isLoading = activeTab === "new" ? loadingNew : loadingBestsellers;
 
   return (
-    <section className="py-section bg-surface-container-lowest">
+    <section className="py-section bg-surface">
       <div className="max-w-container mx-auto px-margin">
-        {/* Tabs */}
-        <div className="flex justify-center gap-12 mb-16">
-          <button
-            onClick={() => setActiveTab("new")}
-            className={`text-label-caps uppercase tracking-widest pb-2 transition-all ${
-              activeTab === "new"
-                ? "border-b-2 border-secondary text-primary"
-                : "text-on-surface-variant hover:text-primary"
-            }`}
-          >
-            New Arrivals
-          </button>
-          <button
-            onClick={() => setActiveTab("bestsellers")}
-            className={`text-label-caps uppercase tracking-widest pb-2 transition-all ${
-              activeTab === "bestsellers"
-                ? "border-b-2 border-secondary text-primary"
-                : "text-on-surface-variant hover:text-primary"
-            }`}
-          >
-            Bestsellers
-          </button>
+        <div className="flex items-center justify-between mb-12">
+          <h2 className="font-display text-headline-md text-primary">Curated For You</h2>
+          <div className="flex gap-6">
+            <button
+              onClick={() => setActiveTab("new")}
+              className={`text-label-caps uppercase tracking-widest transition-colors ${
+                activeTab === "new" ? "text-secondary" : "text-on-surface-variant hover:text-primary"
+              }`}
+            >
+              New Arrivals
+            </button>
+            <button
+              onClick={() => setActiveTab("bestsellers")}
+              className={`text-label-caps uppercase tracking-widest transition-colors ${
+                activeTab === "bestsellers" ? "text-secondary" : "text-on-surface-variant hover:text-primary"
+              }`}
+            >
+              Bestsellers
+            </button>
+          </div>
         </div>
 
-        {/* Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
-          {items.map((product, index) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-            >
-              <ProductCard product={product} />
-            </motion.div>
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="flex justify-center py-20">
+            <Loader2 className="w-8 h-8 text-secondary animate-spin" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {products?.map((product, idx) => (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                className="group"
+              >
+                <Link to={`/products/${product.slug}`} className="block relative overflow-hidden bg-surface-container-low aspect-[3/4] mb-4">
+                  <img
+                    src={product.images[0]?.url}
+                    alt={product.name}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  {product.isNewArrival && (
+                    <span className="absolute top-3 left-3 bg-secondary text-on-secondary text-[10px] uppercase tracking-widest px-3 py-1">
+                      New
+                    </span>
+                  )}
+                  {product.compareAtPrice && (
+                    <span className="absolute top-3 right-3 bg-error text-white text-[10px] uppercase tracking-widest px-3 py-1">
+                      Sale
+                    </span>
+                  )}
+                  <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (!isAuthenticated) {
+                          addToast("Please sign in to add to wishlist", "info");
+                          return;
+                        }
+                        if (isInWishlist(product.id)) {
+                          removeFromWishlist(product.id);
+                          addToast("Removed from wishlist", "info");
+                        } else {
+                          addToWishlist(product.id);
+                          addToast("Added to wishlist", "success");
+                        }
+                      }}
+                      className={`w-10 h-10 flex items-center justify-center shadow-lg ${
+                        isInWishlist(product.id) ? "bg-error text-white" : "bg-white text-primary"
+                      }`}
+                      aria-label="Add to wishlist"
+                    >
+                      <Heart className={`w-4 h-4 ${isInWishlist(product.id) ? "fill-current" : ""}`} />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        addItem(product);
+                      }}
+                      className="w-10 h-10 bg-white text-primary flex items-center justify-center shadow-lg"
+                      aria-label="Add to cart"
+                    >
+                      +
+                    </button>
+                  </div>
+                </Link>
+                <h3 className="font-display text-body text-primary group-hover:text-secondary transition-colors">
+                  <Link to={`/products/${product.slug}`}>{product.name}</Link>
+                </h3>
+                <p className="text-sm text-on-surface-variant font-body">{product.material}</p>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="font-display text-body text-primary">{formatNaira(product.price)}</span>
+                  {product.compareAtPrice && (
+                    <span className="text-sm text-on-surface-variant line-through">
+                      {formatNaira(product.compareAtPrice)}
+                    </span>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
-  );
-}
-
-function ProductCard({ product }: { product: Product }) {
-  const { addItem } = useCartStore();
-
-  return (
-    <Link to={`/products/${product.slug}`} className="group cursor-pointer block">
-      <div className="relative aspect-[3/4] bg-surface-container-low overflow-hidden mb-6">
-        <img
-          src={product.images[0]?.url}
-          alt={product.images[0]?.alt || product.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-        />
-        {product.isNewArrival && (
-          <span className="absolute top-4 left-4 bg-primary text-white text-[10px] tracking-widest uppercase px-3 py-1 font-body">
-            New
-          </span>
-        )}
-        <button
-          className="absolute bottom-0 left-0 w-full bg-primary text-white py-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 text-label-caps uppercase"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            addItem(product);
-          }}
-        >
-          Add to Bag
-        </button>
-      </div>
-      <h3 className="font-display text-body-lg mb-1">{product.name}</h3>
-      <p className="text-secondary font-bold font-body">{formatNaira(product.price)}</p>
-    </Link>
   );
 }

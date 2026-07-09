@@ -1,12 +1,26 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSEO } from "../hooks/useSEO";
 import { useState } from "react";
+import { Loader2 } from "lucide-react";
+import { useAuthStore } from "../stores/authStore";
 
 export default function LoginPage() {
+  useSEO("Login | TAREÉ Jewelry", "Sign in to your TAREÉ Jewelry account.");
+  const navigate = useNavigate();
+  const { login, isLoading } = useAuthStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+    try {
+      await login(email, password);
+      navigate("/account");
+    } catch (err: any) {
+      setError(err.response?.data?.detail || "Login failed. Please try again.");
+    }
   };
 
   return (
@@ -16,6 +30,12 @@ export default function LoginPage() {
           <h1 className="font-display text-headline-lg text-primary mb-4">Welcome Back</h1>
           <p className="text-on-surface-variant font-body">Sign in to your TAREÉ account</p>
         </div>
+
+        {error && (
+          <div className="bg-error/10 text-error px-4 py-3 mb-6 text-sm font-body">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
@@ -56,14 +76,22 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="w-full bg-luxury-navy text-champagne-gold py-4 text-label-caps uppercase tracking-widest hover:bg-champagne-gold hover:text-luxury-navy transition-all duration-300"
+            disabled={isLoading}
+            className="w-full bg-luxury-navy text-champagne-gold py-4 text-label-caps uppercase tracking-widest hover:bg-champagne-gold hover:text-luxury-navy transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
           >
-            Sign In
+            {isLoading ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Signing in...
+              </>
+            ) : (
+              "Sign In"
+            )}
           </button>
         </form>
 
         <p className="mt-8 text-center text-sm text-on-surface-variant font-body">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link to="/register" className="text-secondary hover:text-primary transition-colors">
             Create one
           </Link>

@@ -36,7 +36,7 @@ export default function MobileMenu({ isOpen, onClose, links }: MobileMenuProps) 
                 <img
                   src="/images/logo.png"
                   alt="TAREÉ"
-                  className="h-10 w-auto object-contain"
+                  className="h-16 w-auto object-contain"
                 />
                 <button
                   onClick={onClose}

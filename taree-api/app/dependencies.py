@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database import get_db
-from app.models import User
+from app.models import User, TokenBlacklist
 from app.utils.security import decode_token
 
 
@@ -27,6 +27,12 @@ async def get_current_user(
     payload = decode_token(token)
     if payload is None:
         raise credentials_exception
+
+    jti = payload.get("jti")
+    if jti:
+        blacklisted = await db.execute(select(TokenBlacklist).where(TokenBlacklist.token_jti == jti))
+        if blacklisted.scalar_one_or_none():
+            raise credentials_exception
 
     user_id: Optional[str] = payload.get("sub")
     if user_id is None:
@@ -51,6 +57,12 @@ async def get_current_user_optional(
     payload = decode_token(token)
     if payload is None:
         return None
+
+    jti = payload.get("jti")
+    if jti:
+        blacklisted = await db.execute(select(TokenBlacklist).where(TokenBlacklist.token_jti == jti))
+        if blacklisted.scalar_one_or_none():
+            return None
 
     user_id: Optional[str] = payload.get("sub")
     if user_id is None:

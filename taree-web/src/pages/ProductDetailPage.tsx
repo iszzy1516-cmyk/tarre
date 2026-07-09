@@ -1,322 +1,337 @@
 import { useState } from "react";
+import { useSEO } from "../hooks/useSEO";
 import { useParams, Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { Heart, ChevronDown, Truck, ShieldCheck } from "lucide-react";
+import { Heart, ChevronDown, Truck, ShieldCheck, Loader2 } from "lucide-react";
 import { formatNaira } from "../lib/utils";
 import { useCartStore } from "../stores/cartStore";
+import { useWishlist } from "../stores/wishlistStore";
+import { useAuthStore } from "../stores/authStore";
+import { useToastStore } from "../stores/toastStore";
+import { api } from "../lib/api";
 import type { Product } from "../types";
+import { ProductReviews } from "../components/product/ProductReviews";
 
-const products: Product[] = [
-  {
-    id: "5",
-    name: "Ethereal Wings Diamond Choker",
-    slug: "ethereal-wings-diamond-choker",
-    description: "A masterpiece of Nigerian craftsmanship, featuring our signature butterfly monogram encrusted with brilliant-cut diamonds. Each wing is hand-finished to evoke the fluid movement of transformation.",
-    price: 280000,
-    sku: "TAR-EWC-005",
-    images: [
-      { id: "i1", url: "/images/ethereal-wings-choker.png", alt: "Ethereal Wings Main", sortOrder: 0, isPrimary: true },
-      { id: "i2", url: "/images/ethereal-wings-sketch.png", alt: "Ethereal Wings Detail", sortOrder: 1, isPrimary: false },
-      { id: "i3", url: "/images/butterfly-pendant-cushion.png", alt: "Ethereal Wings Alternate", sortOrder: 2, isPrimary: false },
-    ],
-    category: { id: "c1", name: "Necklaces", slug: "necklaces" },
-    material: "18K Yellow Gold & Ethically Sourced Diamonds",
-    isNewArrival: false,
-    isFeatured: true,
-    isActive: true,
-    stockQuantity: 5,
-  },
-  {
-    id: "1",
-    name: "Butterfly Monogram Necklace",
-    slug: "butterfly-monogram-necklace",
-    description: "A delicate yet powerful statement piece. The butterfly monogram is rendered in solid 18k gold, symbolizing transformation and the enduring beauty of African craftsmanship.",
-    price: 450000,
-    sku: "TAR-BMN-001",
-    images: [
-      { id: "i1", url: "/images/butterfly-necklace.png", alt: "Butterfly Necklace Main", sortOrder: 0, isPrimary: true },
-      { id: "i2", url: "/images/butterfly-pendant-cushion.png", alt: "Butterfly Necklace Detail", sortOrder: 1, isPrimary: false },
-    ],
-    category: { id: "c1", name: "Necklaces", slug: "necklaces" },
-    material: "18K Gold",
-    isNewArrival: true,
-    isFeatured: true,
-    isActive: true,
-    stockQuantity: 10,
-  },
-];
+async function fetchProduct(slug: string): Promise<Product> {
+  const { data } = await api.get(`/products/${slug}`);
+  return {
+    ...data,
+    images: data.images.map((img: any) => ({
+      id: img.id,
+      url: img.url,
+      alt: img.alt_text,
+      sortOrder: img.sort_order,
+      isPrimary: img.is_primary,
+    })),
+    category: data.category,
+    isNewArrival: data.is_new_arrival,
+    isFeatured: data.is_featured,
+    isActive: data.is_active,
+    stockQuantity: data.stock_quantity,
+    compareAtPrice: data.compare_at_price,
+    shortDescription: data.short_description,
+    variants: data.variants?.map((v: any) => ({
+      id: v.id,
+      name: v.name,
+      priceAdjustment: v.price_adjustment,
+      stockQuantity: v.stock_quantity,
+      sku: v.sku,
+    })),
+  };
+}
 
-const relatedProducts: Product[] = [
-  {
-    id: "8",
-    name: "Butterfly Wing Studs",
-    slug: "butterfly-wing-studs",
-    description: "",
-    price: 120000,
-    sku: "TAR-BWS-008",
-    images: [{ id: "i8", url: "/images/ethereal-wings-sketch.png", alt: "Butterfly Wing Studs", sortOrder: 0, isPrimary: true }],
-    category: { id: "c2", name: "Earrings", slug: "earrings" },
-    isNewArrival: false,
-    isFeatured: true,
-    isActive: true,
-    stockQuantity: 18,
-  },
-  {
-    id: "7",
-    name: "Metamorphosis Bangle",
-    slug: "metamorphosis-bangle",
-    description: "",
-    price: 185000,
-    sku: "TAR-MTB-007",
-    images: [{ id: "i7", url: "/images/gold-bracelets.png", alt: "Metamorphosis Bangle", sortOrder: 0, isPrimary: true }],
-    category: { id: "c3", name: "Bracelets", slug: "bracelets" },
-    isNewArrival: false,
-    isFeatured: true,
-    isActive: true,
-    stockQuantity: 12,
-  },
-];
+async function fetchRelated(categorySlug: string, excludeSlug: string): Promise<Product[]> {
+  const { data } = await api.get(`/products?category=${categorySlug}&limit=4`);
+  return data
+    .filter((p: any) => p.slug !== excludeSlug)
+    .slice(0, 4)
+    .map((p: any) => ({
+      ...p,
+      images: p.images.map((img: any) => ({
+        id: img.id,
+        url: img.url,
+        alt: img.alt_text,
+        sortOrder: img.sort_order,
+        isPrimary: img.is_primary,
+      })),
+      category: p.category,
+      isNewArrival: p.is_new_arrival,
+      isFeatured: p.is_featured,
+      isActive: p.is_active,
+      stockQuantity: p.stock_quantity,
+      compareAtPrice: p.compare_at_price,
+      shortDescription: p.short_description,
+    }));
+}
 
 export default function ProductDetailPage() {
+  useSEO("Product | TAREÉ Jewelry", "Discover the details of this exquisite handcrafted jewelry piece.");
   const { slug } = useParams<{ slug: string }>();
-  const product = products.find((p) => p.slug === slug) || products[0];
-  const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedMaterial, setSelectedMaterial] = useState("gold");
-  const [openAccordion, setOpenAccordion] = useState<string | null>(null);
   const { addItem } = useCartStore();
+  const { isAuthenticated } = useAuthStore();
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
+  const addToast = useToastStore((s) => s.addToast);
+  const [selectedImage, setSelectedImage] = useState(0);
+  const [selectedVariant, setSelectedVariant] = useState<string | undefined>();
+  const [quantity, setQuantity] = useState(1);
+  const [showDetails, setShowDetails] = useState(false);
 
-  const materials = [
-    { id: "gold", name: "18K Gold", color: "#E5C282" },
-    { id: "rose", name: "Rose Gold", color: "#E8AE9D" },
-    { id: "white", name: "White Gold", color: "#E2E2E2" },
-  ];
+  const {
+    data: product,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["product", slug],
+    queryFn: () => fetchProduct(slug!),
+    enabled: !!slug,
+  });
 
-  const accordions = [
-    { id: "craftsmanship", label: "Craftsmanship & Materials" },
-    { id: "size", label: "Size & Fit" },
-    { id: "gift", label: "Gift Wrapping" },
-  ];
+  const { data: related } = useQuery({
+    queryKey: ["related", product?.category.slug, slug],
+    queryFn: () => fetchRelated(product!.category.slug, slug!),
+    enabled: !!product,
+  });
+
+  if (isLoading) {
+    return (
+      <div className="pt-[160px] pb-section flex justify-center">
+        <Loader2 className="w-8 h-8 text-secondary animate-spin" />
+      </div>
+    );
+  }
+
+  if (error || !product) {
+    return (
+      <div className="pt-[160px] pb-section max-w-container mx-auto px-margin text-center">
+        <h1 className="font-display text-headline-lg text-primary mb-4">Product Not Found</h1>
+        <p className="text-on-surface-variant font-body mb-8">
+          We couldn&apos;t find the product you&apos;re looking for.
+        </p>
+        <Link to="/products" className="bg-secondary text-on-secondary px-8 py-3 text-label-caps uppercase tracking-widest">
+          Back to Shop
+        </Link>
+      </div>
+    );
+  }
+
+  const currentVariant = product.variants?.find((v) => v.id === selectedVariant);
+  const displayPrice = currentVariant?.priceAdjustment
+    ? product.price + currentVariant.priceAdjustment
+    : product.price;
+
+  const handleAddToCart = () => {
+    addItem(product, currentVariant, quantity);
+  };
 
   return (
-    <div className="pt-[160px]">
-      <main className="max-w-container mx-auto px-margin">
-        {/* Product Section */}
-        <section className="grid grid-cols-1 lg:grid-cols-10 gap-gutter items-start">
-          {/* Left: Gallery */}
-          <div className="lg:col-span-6 flex flex-col-reverse md:flex-row gap-6">
-            <div className="flex md:flex-col gap-4 overflow-x-auto md:overflow-y-auto max-h-[800px] custom-scrollbar pb-2">
-              {product.images.map((img, idx) => (
-                <button
-                  key={img.id}
-                  onClick={() => setSelectedImage(idx)}
-                  className={`min-w-[100px] h-[120px] bg-surface-container cursor-pointer transition-opacity ${
-                    selectedImage === idx
-                      ? "border border-secondary opacity-100"
-                      : "opacity-60 hover:opacity-100"
-                  }`}
-                >
-                  <img
-                    src={img.url}
-                    alt={img.alt}
-                    className="w-full h-full object-cover"
-                  />
-                </button>
-              ))}
-            </div>
-            <div className="flex-1 bg-surface-container-low aspect-[4/5] relative group overflow-hidden">
-              <img
+    <div className="pt-[140px] pb-section">
+      <div className="max-w-container mx-auto px-margin">
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 text-sm text-on-surface-variant font-body mb-8">
+          <Link to="/" className="hover:text-primary transition-colors">Home</Link>
+          <span>/</span>
+          <Link to="/products" className="hover:text-primary transition-colors">Shop</Link>
+          <span>/</span>
+          <Link to={`/categories/${product.category.slug}`} className="hover:text-primary transition-colors">
+            {product.category.name}
+          </Link>
+          <span>/</span>
+          <span className="text-primary">{product.name}</span>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24">
+          {/* Images */}
+          <div>
+            <div className="aspect-square bg-surface-container-low mb-4 overflow-hidden">
+              <motion.img
+                key={selectedImage}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 src={product.images[selectedImage]?.url}
-                alt={product.images[selectedImage]?.alt}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+                alt={product.images[selectedImage]?.alt || product.name}
+                className="w-full h-full object-cover"
               />
-              <div className="absolute top-8 right-8 bg-surface-container-lowest/90 backdrop-blur-md px-5 py-2 rounded-full border border-champagne-gold/30">
-                <span className="text-[11px] text-secondary tracking-[0.25em] uppercase font-body">
-                  Signature Piece
-                </span>
-              </div>
             </div>
+            {product.images.length > 1 && (
+              <div className="flex gap-3">
+                {product.images.map((img, idx) => (
+                  <button
+                    key={img.id}
+                    onClick={() => setSelectedImage(idx)}
+                    className={`w-20 h-20 overflow-hidden border-2 transition-colors ${
+                      idx === selectedImage ? "border-secondary" : "border-transparent"
+                    }`}
+                  >
+                    <img src={img.url} alt={img.alt || ""} className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Right: Details */}
-          <div className="lg:col-span-4 lg:sticky lg:top-[180px] pl-0 lg:pl-10">
-            <div className="mb-10">
-              <h2 className="text-label-caps text-secondary uppercase tracking-[0.3em] mb-4 text-[13px] font-body">
-                TAREÉ JEWELRY
-              </h2>
-              <h3 className="font-display text-headline-lg text-primary mb-4 leading-tight">
-                {product.name}
-              </h3>
-              <p className="font-display text-headline-md text-luxury-navy font-normal">
-                {formatNaira(product.price)}
-              </p>
+          {/* Info */}
+          <div className="flex flex-col">
+            <div className="mb-2">
+              {product.isNewArrival && (
+                <span className="text-[10px] uppercase tracking-widest text-secondary font-body">New Arrival</span>
+              )}
             </div>
+            <h1 className="font-display text-headline-lg text-primary mb-4">{product.name}</h1>
+            <div className="flex items-center gap-3 mb-6">
+              <span className="font-display text-headline-md text-primary">{formatNaira(displayPrice)}</span>
+              {product.compareAtPrice && (
+                <span className="text-lg text-on-surface-variant line-through">
+                  {formatNaira(product.compareAtPrice)}
+                </span>
+              )}
+            </div>
+            <p className="text-on-surface-variant font-body leading-relaxed mb-8">{product.description}</p>
 
-            <p className="text-on-surface-variant font-body-md mb-10 leading-relaxed text-lg">
-              {product.description}
-            </p>
+            {/* Variants */}
+            {product.variants && product.variants.length > 0 && (
+              <div className="mb-8">
+                <label className="block text-[11px] uppercase tracking-widest text-on-surface-variant mb-3 font-body">
+                  Size
+                </label>
+                <div className="flex gap-3">
+                  {product.variants.map((variant) => (
+                    <button
+                      key={variant.id}
+                      onClick={() => setSelectedVariant(variant.id)}
+                      className={`px-4 py-2 border text-sm font-body transition-colors ${
+                        selectedVariant === variant.id
+                          ? "border-secondary bg-secondary/5 text-secondary"
+                          : "border-outline-variant hover:border-primary"
+                      }`}
+                    >
+                      {variant.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
-            {/* Material Selection */}
-            <div className="mb-10">
-              <span className="block text-[11px] text-on-surface-variant mb-4 uppercase tracking-widest font-body">
-                Select Material
-              </span>
-              <div className="flex gap-5">
-                {materials.map((mat) => (
-                  <button
-                    key={mat.id}
-                    onClick={() => setSelectedMaterial(mat.id)}
-                    title={mat.name}
-                    className={`w-12 h-12 rounded-full border-2 transition-all ${
-                      selectedMaterial === mat.id
-                        ? "border-primary ring-2 ring-offset-2 ring-surface"
-                        : "border-transparent hover:border-outline-variant"
-                    }`}
-                    style={{ backgroundColor: mat.color }}
-                  />
-                ))}
+            {/* Quantity */}
+            <div className="mb-8">
+              <label className="block text-[11px] uppercase tracking-widest text-on-surface-variant mb-3 font-body">
+                Quantity
+              </label>
+              <div className="flex items-center border border-outline-variant w-fit">
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="px-4 py-2 hover:bg-surface-container transition-colors"
+                >
+                  −
+                </button>
+                <span className="px-4 py-2 text-sm font-body min-w-[3rem] text-center">{quantity}</span>
+                <button
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="px-4 py-2 hover:bg-surface-container transition-colors"
+                >
+                  +
+                </button>
               </div>
             </div>
 
             {/* Actions */}
-            <div className="flex gap-4 mb-12">
+            <div className="flex gap-4 mb-10">
               <button
-                onClick={() => addItem(product)}
-                className="flex-[3] bg-luxury-navy text-champagne-gold border border-champagne-gold py-5 px-8 text-label-caps uppercase tracking-[0.2em] text-sm font-bold shadow-xl hover:bg-champagne-gold hover:text-luxury-navy hover:border-luxury-navy transition-all duration-300"
+                onClick={handleAddToCart}
+                className="flex-1 bg-luxury-navy text-champagne-gold py-4 text-label-caps uppercase tracking-widest hover:bg-champagne-gold hover:text-luxury-navy transition-all duration-300"
               >
                 Add to Bag
               </button>
-              <button className="flex-1 border border-outline-variant flex items-center justify-center hover:bg-luxury-navy hover:text-champagne-gold transition-all duration-300">
-                <Heart className="w-5 h-5" />
+              <button
+                onClick={() => {
+                  if (!isAuthenticated) {
+                    addToast("Please sign in to add to wishlist", "info");
+                    return;
+                  }
+                  if (product && isInWishlist(product.id)) {
+                    removeFromWishlist(product.id);
+                    addToast("Removed from wishlist", "info");
+                  } else if (product) {
+                    addToWishlist(product.id);
+                    addToast("Added to wishlist", "success");
+                  }
+                }}
+                className={`w-14 h-14 border flex items-center justify-center transition-colors ${
+                  product && isInWishlist(product.id)
+                    ? "border-error text-error bg-error/5"
+                    : "border-outline-variant hover:border-primary"
+                }`}
+                aria-label="Add to wishlist"
+              >
+                <Heart className={`w-5 h-5 ${product && isInWishlist(product.id) ? "fill-current" : ""}`} />
               </button>
             </div>
 
-            {/* Trust Badges */}
-            <div className="grid grid-cols-2 gap-6 border-t border-b border-outline-variant/10 py-8 mb-10">
-              <div className="flex items-center gap-4">
-                <Truck className="w-6 h-6 text-champagne-gold" />
-                <span className="text-[11px] text-on-surface-variant leading-tight uppercase tracking-wider font-body">
-                  Free Nationwide Delivery
-                </span>
+            {/* Trust */}
+            <div className="space-y-4 border-t border-outline-variant/10 pt-8">
+              <div className="flex items-center gap-3 text-sm text-on-surface-variant font-body">
+                <Truck className="w-5 h-5 text-secondary" />
+                Free delivery in Lagos & Abuja
               </div>
-              <div className="flex items-center gap-4">
-                <ShieldCheck className="w-6 h-6 text-champagne-gold" />
-                <span className="text-[11px] text-on-surface-variant leading-tight uppercase tracking-wider font-body">
-                  2-Year Warranty
-                </span>
+              <div className="flex items-center gap-3 text-sm text-on-surface-variant font-body">
+                <ShieldCheck className="w-5 h-5 text-secondary" />
+                2-year craftsmanship warranty
               </div>
             </div>
 
-            {/* Accordions */}
-            <div className="space-y-6">
-              {accordions.map((acc) => (
-                <div
-                  key={acc.id}
-                  className="group border-b border-outline-variant/10 pb-5"
-                >
-                  <button
-                    onClick={() =>
-                      setOpenAccordion(openAccordion === acc.id ? null : acc.id)
-                    }
-                    className="flex justify-between items-center w-full cursor-pointer hover:text-secondary transition-colors"
-                  >
-                    <span className="text-label-caps text-on-surface uppercase tracking-widest text-[12px] font-body">
-                      {acc.label}
-                    </span>
-                    <ChevronDown
-                      className={`w-5 h-5 text-outline transition-transform duration-300 ${
-                        openAccordion === acc.id ? "rotate-180" : ""
-                      }`}
-                    />
-                  </button>
-                  {openAccordion === acc.id && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      className="pt-4 text-on-surface-variant text-sm leading-relaxed"
-                    >
-                      {acc.id === "craftsmanship" && (
-                        <p>
-                          Each piece is handcrafted by master artisans in Lagos using ethically sourced 18k gold and conflict-free diamonds. Our signature butterfly motif is hand-finished to ensure every detail meets our exacting standards.
-                        </p>
-                      )}
-                      {acc.id === "size" && (
-                        <p>
-                          This choker measures 38cm in length with a 5cm extension chain. For bespoke sizing, please contact our concierge team.
-                        </p>
-                      )}
-                      {acc.id === "gift" && (
-                        <p>
-                          Every TAREÉ piece arrives in our signature navy and gold presentation box, complete with a handwritten note card and care instructions.
-                        </p>
-                      )}
-                    </motion.div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Collection Story */}
-        <section className="mt-section py-section border-t border-outline-variant/10">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="mb-10 flex justify-center">
-              <svg
-                className="w-12 h-12 text-champagne-gold"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
+            {/* Details accordion */}
+            <div className="border-t border-outline-variant/10 mt-8">
+              <button
+                onClick={() => setShowDetails(!showDetails)}
+                className="flex items-center justify-between w-full py-4 text-left"
               >
-                <path d="M12 3c-4.5 0-8 3.5-8 8 0 1.5.5 3 1.5 4.5L3 21l5.5-2.5c1.5 1 3 1.5 4.5 1.5 4.5 0 8-3.5 8-8s-3.5-8-8-8z" />
-              </svg>
+                <span className="font-display text-body text-primary">Product Details</span>
+                <ChevronDown className={`w-5 h-5 transition-transform ${showDetails ? "rotate-180" : ""}`} />
+              </button>
+              {showDetails && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  className="pb-4 space-y-2 text-sm text-on-surface-variant font-body"
+                >
+                  <p><span className="text-primary">SKU:</span> {product.sku}</p>
+                  <p><span className="text-primary">Material:</span> {product.material}</p>
+                  <p><span className="text-primary">Stock:</span> {product.stockQuantity} available</p>
+                </motion.div>
+              )}
             </div>
-            <h4 className="font-display text-headline-md text-primary mb-8 italic">
-              The Butterfly Legacy
-            </h4>
-            <p className="font-display text-headline-md text-on-surface-variant leading-relaxed italic opacity-90 text-[28px]">
-              "Inspired by the Benin royal ivory masks and the delicate metamorphosis of the savanna butterfly, the Butterfly Collection symbolizes the rising power of the modern African woman."
-            </p>
-            <p className="mt-6 text-body-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
-              Each piece is an heirloom, designed to be passed down through generations, carrying the story of strength and beauty.
-            </p>
           </div>
-        </section>
+        </div>
+
+        {/* Reviews */}
+        <div className="mt-24 max-w-3xl">
+          <ProductReviews productId={product.id} />
+        </div>
 
         {/* Related Products */}
-        <section className="mt-section mb-section bg-soft-cream -mx-margin-desktop px-margin-desktop py-24">
-          <div className="max-w-container mx-auto">
-            <h5 className="text-label-caps text-sm text-primary mb-16 uppercase tracking-[0.4em] text-center font-body">
-              Complete The Look
-            </h5>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              {relatedProducts.map((rp) => (
-                <Link
-                  key={rp.id}
-                  to={`/products/${rp.slug}`}
-                  className="group cursor-pointer bg-white p-6 shadow-sm hover:shadow-xl transition-all duration-500 block"
-                >
-                  <div className="aspect-square bg-surface-container-low mb-8 overflow-hidden">
+        {related && related.length > 0 && (
+          <div className="mt-24">
+            <h2 className="font-display text-headline-md text-primary mb-8">You May Also Like</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {related.map((p) => (
+                <Link key={p.id} to={`/products/${p.slug}`} className="group">
+                  <div className="aspect-[3/4] bg-surface-container-low overflow-hidden mb-4">
                     <img
-                      src={rp.images[0]?.url}
-                      alt={rp.images[0]?.alt}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      src={p.images[0]?.url}
+                      alt={p.name}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>
-                  <div className="text-center">
-                    <p className="font-display text-[24px] text-primary mb-2">
-                      {rp.name}
-                    </p>
-                    <p className="text-on-surface-variant text-lg font-body">
-                      {formatNaira(rp.price)}
-                    </p>
-                  </div>
+                  <h3 className="font-display text-body text-primary group-hover:text-secondary transition-colors">
+                    {p.name}
+                  </h3>
+                  <p className="font-display text-body text-primary mt-1">{formatNaira(p.price)}</p>
                 </Link>
               ))}
             </div>
           </div>
-        </section>
-      </main>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,30 +1,44 @@
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
+import { api } from "../../lib/api";
+import { Loader2 } from "lucide-react";
 
-const categories = [
-  {
-    name: "Necklaces",
-    image: "/images/diamond-choker.png",
-    href: "/categories/necklaces-pendants",
-  },
-  {
-    name: "Earrings",
-    image: "/images/drop-earrings.png",
-    href: "/categories/earrings",
-  },
-  {
-    name: "Bracelets",
-    image: "/images/gold-bracelets.png",
-    href: "/categories/bracelets-bangles",
-  },
-  {
-    name: "Rings",
-    image: "/images/crown-ring.png",
-    href: "/categories/rings",
-  },
-];
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+const CATEGORY_IMAGES: Record<string, string> = {
+  necklaces: "/images/real/necklaces-category.jpg",
+  earrings: "/images/real/earrings-category.jpg",
+  bracelets: "/images/real/bracelets-category.jpg",
+  rings: "/images/real/rings-category.jpg",
+  "bridal-sets": "/images/real/bridal-category.jpg",
+};
+
+async function fetchCategories(): Promise<Category[]> {
+  const { data } = await api.get("/categories");
+  return data;
+}
 
 export default function CategoryGrid() {
+  const { data: categories, isLoading } = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchCategories,
+  });
+
+  if (isLoading) {
+    return (
+      <section className="py-section butterfly-bg">
+        <div className="max-w-container mx-auto px-margin flex justify-center">
+          <Loader2 className="w-8 h-8 text-secondary animate-spin" />
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-section butterfly-bg">
       <div className="max-w-container mx-auto px-margin">
@@ -36,20 +50,20 @@ export default function CategoryGrid() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
-          {categories.map((category, index) => (
+          {categories?.map((category, index) => (
             <motion.div
-              key={category.name}
+              key={category.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <Link
-                to={category.href}
+                to={`/categories/${category.slug}`}
                 className="group relative aspect-[4/5] overflow-hidden block"
               >
                 <img
-                  src={category.image}
+                  src={CATEGORY_IMAGES[category.slug] || "/images/hero.jpg"}
                   alt={category.name}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />

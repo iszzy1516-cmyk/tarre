@@ -11,6 +11,21 @@
   </head>
   <body class="bg-surface font-body-md text-on-surface antialiased">
     <div id="root"></div>
+    <div id="debug-errors" style="position:fixed;top:0;left:0;right:0;z-index:99999;background:#b91c1c;color:#fff;padding:16px;font-family:monospace;font-size:14px;white-space:pre-wrap;display:none;"></div>
+    <script>
+      const debugDiv = document.getElementById('debug-errors');
+      function showError(msg) {
+        debugDiv.style.display = 'block';
+        debugDiv.textContent += msg + '\n';
+      }
+      window.onerror = function(msg, src, line, col, err) {
+        showError('ERROR: ' + msg + ' at ' + src + ':' + line + ':' + col);
+        return false;
+      };
+      window.onunhandledrejection = function(e) {
+        showError('UNHANDLED REJECTION: ' + e.reason);
+      };
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

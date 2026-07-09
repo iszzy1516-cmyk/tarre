@@ -1,12 +1,13 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy import select, func
+from sqlalchemy import select, func, desc
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.database import get_db
-from app.models import Product, Category
+from app.models import Product, Category, OrderItem
 from app.schemas import ProductSchema, ProductListSchema
+from app.services.meilisearch import meilisearch_service
 
 router = APIRouter(prefix="/products", tags=["Products"])
 
@@ -15,6 +16,7 @@ router = APIRouter(prefix="/products", tags=["Products"])
 async def list_products(
     db: AsyncSession = Depends(get_db),
     category: str | None = Query(None),
+    q: str | None = Query(None),
     min_price: float | None = Query(None),
     max_price: float | None = Query(None),
     material: str | None = Query(None),
@@ -31,6 +33,10 @@ async def list_products(
 
     if category:
         query = query.join(Category).where(Category.slug == category)
+    if q:
+        query = query.where(
+            (Product.name.ilike(f"%{q}%")) | (Product.description.ilike(f"%{q}%"))
+        )
     if min_price is not None:
         query = query.where(Product.price >= min_price)
     if max_price is not None:
@@ -46,7 +52,10 @@ async def list_products(
         "price_asc": Product.price.asc(),
         "price_desc": Product.price.desc(),
         "newest": Product.created_at.desc(),
+        "bestseller": desc(func.coalesce(func.sum(OrderItem.quantity), 0)),
     }
+    if sort == "bestseller":
+        query = query.outerjoin(OrderItem, OrderItem.product_id == Product.id).group_by(Product.id)
     query = query.order_by(sort_map.get(sort, Product.created_at.desc()))
 
     count_result = await db.execute(select(func.count()).select_from(query.subquery()))
@@ -77,6 +86,39 @@ async def new_arrivals(db: AsyncSession = Depends(get_db)):
         .where(Product.is_active == True, Product.is_new_arrival == True)
         .options(selectinload(Product.images), selectinload(Product.category))
         .limit(8)
+    )
+    return result.scalars().all()
+
+
+@router.get("/search", response_model=List[ProductListSchema])
+async def search_products(
+    q: str = Query(..., min_length=1),
+    limit: int = Query(20, ge=1, le=100),
+    db: AsyncSession = Depends(get_db),
+):
+    # Try Meilisearch first
+    meili_results = await meilisearch_service.search(q, limit)
+    if meili_results and meili_results.get("hits"):
+        slugs = [hit["slug"] for hit in meili_results["hits"]]
+        result = await db.execute(
+            select(Product)
+            .where(Product.slug.in_(slugs), Product.is_active == True)
+            .options(selectinload(Product.images), selectinload(Product.category))
+        )
+        products = result.scalars().all()
+        # Preserve Meilisearch relevance order
+        slug_map = {p.slug: p for p in products}
+        return [slug_map[s] for s in slugs if s in slug_map]
+
+    # Fallback to SQL ILIKE
+    result = await db.execute(
+        select(Product)
+        .where(
+            Product.is_active == True,
+            (Product.name.ilike(f"%{q}%")) | (Product.description.ilike(f"%{q}%")),
+        )
+        .options(selectinload(Product.images), selectinload(Product.category))
+        .limit(limit)
     )
     return result.scalars().all()
 

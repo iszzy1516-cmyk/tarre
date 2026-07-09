@@ -17,3 +17,11 @@ def validate_password_strength(password: str) -> bool:
     if not re.search(r"[!@#$%^&*(),.?\":{}|<>_\-=+\[\];'/`~]", password):
         return False
     return True
+
+
+def sanitize_html(text: str | None) -> str | None:
+    if not text:
+        return text
+    # Strip all HTML tags for safety
+    clean = re.sub(r"<[^>]+>", "", text)
+    return clean

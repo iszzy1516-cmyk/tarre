@@ -49,6 +49,7 @@ class Product(Base):
     reviews: Mapped[List["Review"]] = relationship(back_populates="product")
     order_items: Mapped[List["OrderItem"]] = relationship(back_populates="product")
     wishlist_items: Mapped[List["WishlistItem"]] = relationship(back_populates="product")
+    cart_items: Mapped[List["CartItem"]] = relationship(back_populates="product")
 
 
 class ProductImage(Base):
@@ -57,6 +58,7 @@ class ProductImage(Base):
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     product_id: Mapped[str] = mapped_column(ForeignKey("products.id"))
     url: Mapped[str] = mapped_column(String(500))
+    public_id: Mapped[Optional[str]] = mapped_column(String(200))
     alt_text: Mapped[Optional[str]] = mapped_column(String(200))
     sort_order: Mapped[int] = mapped_column(default=0)
     is_primary: Mapped[bool] = mapped_column(default=False)

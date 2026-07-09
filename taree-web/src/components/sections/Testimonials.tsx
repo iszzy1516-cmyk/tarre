@@ -20,7 +20,7 @@ export default function Testimonials() {
             <div className="flex flex-col items-center">
               <div className="w-12 h-12 rounded-full overflow-hidden mb-4 bg-primary-container">
                 <img
-                  src="/images/bridal-necklace.png"
+                  src="/images/real/heart-pendant-bust.jpg"
                   alt="Amara, Lagos"
                   className="w-full h-full object-cover"
                 />

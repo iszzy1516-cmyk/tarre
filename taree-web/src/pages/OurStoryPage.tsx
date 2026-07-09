@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
+import { useSEO } from "../hooks/useSEO";
 import { motion } from "framer-motion";
 import { Gem, Leaf, Award } from "lucide-react";
 
 export default function OurStoryPage() {
+  useSEO("Our Story | TAREÉ Jewelry", "Learn about TAREÉ Jewelry's heritage and craftsmanship.");
   return (
     <div className="pt-[140px]">
       {/* Hero */}
@@ -64,7 +66,7 @@ export default function OurStoryPage() {
                 </p>
               </div>
               <img
-                src="/images/butterfly-pendant-cushion.png"
+                src="/images/real/clover-pendant-close.jpg"
                 alt="Benin Mask Inspiration"
                 className="mt-10 w-32 h-32 object-contain opacity-60"
               />
@@ -78,7 +80,7 @@ export default function OurStoryPage() {
               className="relative"
             >
               <img
-                src="/images/butterfly-pendant-cushion.png"
+                src="/images/real/clover-pendant-bust.jpg"
                 alt="Butterfly Pendant"
                 className="w-full aspect-square object-cover shadow-2xl"
               />
@@ -99,7 +101,7 @@ export default function OurStoryPage() {
               className="order-2 lg:order-1"
             >
               <img
-                src="/images/gold-rings-dark.png"
+                src="/images/real/jesus-pendant-bust.jpg"
                 alt="Lagos Artistry"
                 className="w-full aspect-[4/3] object-cover"
               />

@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useSEO } from "../hooks/useSEO";
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 
 export default function ContactPage() {
+  useSEO("Contact Us | TAREÉ Jewelry", "Get in touch with the TAREÉ team.");
   const [form, setForm] = useState({
     name: "",
     email: "",

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useSEO } from "../hooks/useSEO";
 import { motion } from "framer-motion";
 
 const posts = [
@@ -6,7 +7,7 @@ const posts = [
     id: "1",
     title: "The Art of Metamorphosis: How the Butterfly Became Our Muse",
     excerpt: "Discover the story behind TAREÉ's signature butterfly motif and its deep roots in Benin royal heritage and savanna folklore.",
-    image: "/images/butterfly-pendant-cushion.png",
+    image: "/images/real/clover-pendant-bust.jpg",
     date: "May 5, 2026",
     category: "Heritage",
     slug: "butterfly-muse",
@@ -15,7 +16,7 @@ const posts = [
     id: "2",
     title: "A Guide to Caring for Your 18K Gold Jewelry",
     excerpt: "Learn the essential tips and techniques to keep your TAREÉ pieces gleaming for generations to come.",
-    image: "/images/gold-rings-dark.png",
+    image: "/images/real/mesh-chain-close.jpg",
     date: "April 28, 2026",
     category: "Jewelry Care",
     slug: "gold-care-guide",
@@ -24,7 +25,7 @@ const posts = [
     id: "3",
     title: "Behind the Bench: A Day in the Life of a Lagos Goldsmith",
     excerpt: "Step inside our atelier and witness the meticulous craftsmanship that goes into every TAREÉ creation.",
-    image: "/images/gold-bracelets.png",
+    image: "/images/real/herringbone-chain-bust.jpg",
     date: "April 15, 2026",
     category: "Craftsmanship",
     slug: "lagos-goldsmith",
@@ -33,7 +34,7 @@ const posts = [
     id: "4",
     title: "Bridal Trends 2026: Timeless Gold for the Modern Bride",
     excerpt: "From statement chokers to delicate hairpieces, explore the bridal jewelry trends defining African weddings this year.",
-    image: "/images/bridal-necklace.png",
+    image: "/images/real/cross-pendant-bust.jpg",
     date: "April 2, 2026",
     category: "Bridal",
     slug: "bridal-trends-2026",
@@ -41,6 +42,7 @@ const posts = [
 ];
 
 export default function BlogPage() {
+  useSEO("Journal | TAREÉ Jewelry", "Read about jewelry trends, styling tips, and behind-the-scenes stories.");
   return (
     <div className="pt-[160px] pb-section">
       <div className="max-w-container mx-auto px-margin">

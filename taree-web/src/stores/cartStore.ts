@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { CartItem, Product, ProductVariant } from "../types";
+import { useToastStore } from "./toastStore";
 
 interface CartState {
   items: CartItem[];
@@ -59,6 +60,7 @@ export const useCartStore = create<CartState>()(
         }
 
         set({ items: newItems, ...calculateTotals(newItems), isOpen: true });
+        useToastStore.getState().addToast(`${product.name} added to bag`, "success");
       },
 
       removeItem: (itemId) => {

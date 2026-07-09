@@ -7,7 +7,7 @@ export default function BridalSpotlight() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src="/images/bridal-necklace.png"
+          src="/images/real/cross-pendant-bust.jpg"
           alt="Bridal Collection"
           className="w-full h-full object-cover"
         />

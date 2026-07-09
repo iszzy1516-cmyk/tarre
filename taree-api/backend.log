@@ -1,0 +1,7 @@
+INFO:     Will watch for changes in these directories: ['/home/israel/Desktop/TARRE/taree-api']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [268120] using WatchFiles
+INFO:     Started server process [268123]
+INFO:     Waiting for application startup.
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
